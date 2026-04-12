@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Depending on the version of Prisma, Prisma Config might be separate. We'll use the env var here.
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  isAdmin   Boolean  @default(false)
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  category    String   // e.g. "Classic & Premium"
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  orderNumber     String   @unique
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  totalAmount     Float
+  status          String   @default("Awaiting Verification") // AWAITING, CONFIRMED, SHIPPED, DELIVERED
+  paymentProofUrl String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

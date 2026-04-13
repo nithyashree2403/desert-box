@@ -25,10 +25,10 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#4c0023]/60 to-transparent" />
           <div className="relative z-10 px-12 max-w-2xl">
             <h1 className="text-6xl md:text-7xl text-white leading-tight mb-6" style={{ fontFamily: "var(--font-fredoka)" }}>
-              Baked with Love, Shipped to You
+              Baked at Home, Shipped to You
             </h1>
             <p className="text-white/90 text-xl mb-10" style={{ fontFamily: "var(--font-vietnam)" }}>
-              Handcrafted delights from our atelier straight to your doorstep.
+              Honest, real ingredients from our family kitchen straight to your doorstep.
             </p>
             <Link
               href="/menu"
@@ -66,22 +66,41 @@ export default function HomePage() {
             <div className="absolute top-0 left-0 -translate-x-1/4 -translate-y-1/4 opacity-10 sprinkle-bg w-40 h-40" />
           </div>
 
-          {/* Text */}
-          <div className="md:col-span-7 flex flex-col gap-6">
-            <span className="text-[#a8275b] font-bold uppercase tracking-widest text-sm" style={{ fontFamily: "var(--font-jakarta)" }}>
-              Our Story
-            </span>
-            <h2 className="text-5xl text-[#a8275b] leading-tight" style={{ fontFamily: "var(--font-fredoka)" }}>
-              Meet the Baker
-            </h2>
-            <p className="text-[#322d2f]/80 text-lg leading-relaxed drop-cap">
-              Since the first time I held a whisk at age six in my grandmother&apos;s sun-drenched kitchen, I knew that sugar and spice were more than just ingredients—they were a language of love. What started as a local obsession in a tiny coastal village has grown into The Dessert Box, an atelier dedicated to the art of the perfect bite.
-            </p>
-            <p className="text-[#322d2f]/80 text-lg leading-relaxed">
-              Every recipe in our collection has been tested dozens of times to ensure that &quot;melt-in-your-mouth&quot; isn&apos;t just a phrase, but a promise. We don&apos;t just bake; we compose textures and flavors to create a fleeting moment of pure, sugary joy.
-            </p>
-            <div className="mt-4 p-8 bg-[#f9eef0] rounded-[1rem] border-l-8 border-[#a8275b] italic text-[#654449] font-medium">
-              &ldquo;A box of cookies is a hug you can mail. That&apos;s the philosophy behind every batch we pull from the oven.&rdquo;
+          {/* Text Card */}
+          <div className="md:col-span-7">
+            <div className="bg-white/60 backdrop-blur-md p-10 md:p-16 rounded-[3rem] shadow-[0px_20px_40px_rgba(168,39,91,0.03)] border border-white/40 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff70a0]/5 rounded-full -mr-16 -mt-16 blur-3xl" />
+              
+              <span className="text-[#a8275b] font-bold uppercase tracking-widest text-xs mb-4 block" style={{ fontFamily: "var(--font-jakarta)" }}>
+                The Heart Behind the Box
+              </span>
+              <h2 className="text-5xl text-[#a8275b] leading-tight mb-8" style={{ fontFamily: "var(--font-fredoka)" }}>
+                Meet the Baker
+              </h2>
+              
+              <div className="space-y-6 text-[#322d2f]/80 text-lg leading-[1.8]" style={{ fontFamily: "var(--font-jakarta)" }}>
+                <p className="font-medium text-[#322d2f]">
+                  The Dessert Box didn&apos;t start as a business. It just… happened.
+                </p>
+                <p>
+                  Most days, it was just me in the kitchen, baking something small for my kids—and of course, they would be right there, waiting to taste it before it even cooled down. What started as &ldquo;just for home&rdquo; slowly became something everyone around us began asking for.
+                </p>
+                <p className="italic text-[#a8275b]/70 border-l-2 border-[#ff70a0]/30 pl-6 my-8">
+                  It was always the same question—&ldquo;Can you make the same for us?&rdquo; And honestly, I never planned beyond that.
+                </p>
+                <p>
+                  For me, baking has always been about home. As a mom, I can&apos;t ignore what goes into the food I give my kids… so I don&apos;t use anything I wouldn&apos;t be comfortable serving them. No shortcuts, no unnecessary stuff—just simple ingredients, the kind you already trust.
+                </p>
+                <p>
+                  Even today, nothing comes from a factory. Everything is made in my kitchen, the same way I&apos;ve always done it—with a little patience, a lot of care, and that familiar &ldquo;ghar ka&rdquo; feeling in every bite.
+                </p>
+              </div>
+
+              <div className="mt-12 pt-8 border-t border-[#ff70a0]/10">
+                <p className="font-bold text-[#a8275b] text-xl italic" style={{ fontFamily: "var(--font-fredoka)" }}>
+                  &ldquo;There&apos;s no secret… just good ingredients, and a mom who really cares about what you&apos;re eating.&rdquo;
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -90,10 +109,10 @@ export default function HomePage() {
         <section className="bg-[#f0e6e8] rounded-[2rem] p-12 md:p-20 mb-32 relative overflow-hidden">
           <div className="relative z-10 text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-5xl text-[#4c0023] mb-4" style={{ fontFamily: "var(--font-fredoka)" }}>
-              Quality &amp; Craft
+              Honest Ingredients
             </h2>
             <p className="text-[#605a5c] text-lg">
-              We refuse to compromise. Only the finest, most ethical ingredients make it into our mixing bowls.
+              If it doesn&apos;t belong in a home kitchen, it doesn&apos;t go in our treats.
             </p>
           </div>
 
@@ -103,22 +122,22 @@ export default function HomePage() {
                 icon: "grass",
                 bg: "bg-[#f9cc61]",
                 text: "text-[#5b4400]",
-                title: "Organic Flour",
-                desc: "Stone-ground and unbleached, sourced directly from heritage grain farmers who respect the land.",
+                title: "No Preservatives",
+                desc: "We skip all the artificial shortcuts, stabilizers, and chemicals. Just real food.",
               },
               {
                 icon: "bakery_dining",
                 bg: "bg-[#fdced4]",
                 text: "text-[#654449]",
                 title: "Real Butter",
-                desc: "High-fat, European-style cultured butter churned from grass-fed cows for that unmistakable rich flavor.",
+                desc: "We use the same real, rich butter you'd find in your own fridge. No cheap substitutes ever.",
               },
               {
                 icon: "nutrition",
                 bg: "bg-[#ff70a0]",
                 text: "text-[#4c0023]",
-                title: "Premium Chocolate",
-                desc: "Single-origin, ethically traded cacao with a minimum of 70% solids for a deep, lingering finish.",
+                title: "Good Chocolate",
+                desc: "Generous chunks of couverture chocolate that melt perfectly when you warm your cookie.",
               },
             ].map((card) => (
               <div key={card.title} className="bg-white p-10 rounded-[2rem] text-center shadow-sm hover:shadow-md transition-shadow">
@@ -139,7 +158,7 @@ export default function HomePage() {
         <section className="mb-32">
           <div className="text-center mb-16">
             <h2 className="text-5xl text-[#a8275b]" style={{ fontFamily: "var(--font-fredoka)" }}>
-              The Atelier Process
+              From Our Oven to Yours
             </h2>
           </div>
 
@@ -149,22 +168,22 @@ export default function HomePage() {
                 img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBQMCQsG0QcdavL7eS77rdWHJP_4RxgYi-XYirNE826o2zZ7pyzCfRtzm7ZlFY6zFph7EGr5M_36pW1ajOpCbhdf0eIV_ts5zh1hkcPYklSgNudUh3msnRTX3EIspwKpZUZE2gE5R7OLgbczmCfsRoHC5DZ-fA4EaaEK2HlFn7KhFRNC2RN8EiIvHnoknue51QBR9nYit0uqvBP_1ChTV-nVe3Fvdn6pq0zKMz4hbvoOBzC2j20-2mB8O_GKUn-T14_6pGTqHQeoe4",
                 alt: "Baking batches",
                 step: "1",
-                title: "Baked in Small Batches",
-                desc: "Precision over volume. We bake in limited quantities to ensure every single cookie gets the individual attention it deserves.",
+                title: "Tested for the Kids",
+                desc: "Every recipe started as a snack for my own children. I still bake them exactly the same way—with simple, real ingredients and zero shortcuts.",
               },
               {
                 img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDyeK1G4yPP1-i2KUzq8qTKNB8n7Us-cnnHDpr3xN2zh_5bT-hmZfCdgeRw9vNM0bSgoqI1YDjzxb_gL4fZm5IQCxQtd59mX06Rmtxj-9C5RfDTNs30vqoKznvRoihIR04hLERVe52kqPuDEscG-N1rvEpBj9Nd-zK0Q86A0G6tGnJkZZb46ItVK0AOJUxU8RZKzCYRxjcO_R-snLNHhPmbzW2E9vFZ7DzHAiPey20QdLhubApZRKOMyPFZihPIGTkVMupVenLpScc",
                 alt: "Packaging",
                 step: "2",
-                title: "Packed with Care",
-                desc: "Each treat is individually wrapped and nested in our custom-designed sustainable packaging to keep it fresh and beautiful.",
+                title: "The 'Ghar Ka' Touch",
+                desc: "Factory assembly lines aren't for us. Each box is hand-packed with a little extra patience, so it feels like a warm hug when it reaches you.",
               },
               {
                 img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDf0HHRymxSCE5Bmdl7_t9oEFwqbrrNEB51JT36_iiqCO30BfYJ6AhLNWCjkcGOenCar5VwIt6Y2FFZFRJAymyr4q2DJ9rKjQmicAK7HSzNYOGGB7s0BfXQCDOjzw_iTAp8Zpmx6u8Vlo6Uc6PMbI4ypXCR5Ni67SEFzFc0oka1UH1TyOxlt6yGTP-chBkgHQoqD_jr0mgF8_IipRNwBDMSQOmAhHM4crG5OU59UQ_mXm4Vm3cE83FRxAtNHLjsf82kKUL7OCLc7FA",
                 alt: "Shipping",
                 step: "3",
-                title: "Delivered to Your Door",
-                desc: "From our busy kitchen to your quiet home, we deliver the magic of our freshly baked treats directly to you.",
+                title: "Sharing the Joy",
+                desc: "What started as a kitchen secret is now a gift for your family. We deliver that familiar homemade comfort straight from my table to yours.",
               },
             ].map((step) => (
               <div key={step.step} className="group">
@@ -189,10 +208,10 @@ export default function HomePage() {
           <div className="absolute inset-0 sprinkle-bg opacity-10" />
           <div className="relative z-10">
             <h2 className="text-5xl mb-6" style={{ fontFamily: "var(--font-fredoka)" }}>
-              Ready for a taste of magic?
+              Craving that &ldquo;ghar ka&rdquo; sweetness?
             </h2>
             <p className="text-white/80 text-xl max-w-2xl mx-auto mb-10">
-              Join our sweet family today and get your first box with a complimentary artisan tea pairing.
+              Treat yourself and your family to a box of honest, home-baked goodness today.
             </p>
             <Link
               href="/menu"

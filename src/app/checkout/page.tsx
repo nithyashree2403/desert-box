@@ -1,20 +1,19 @@
 "use client";
 
 import { useCartStore } from "@/lib/store";
+import { SignInModal } from "@/components/signin-modal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
-const UPI_ID = "dessertbox@upi";
+const BAKER_WHATSAPP = "+919843667890";
 
 export default function CheckoutPage() {
-  const { items, sweetNote, clearCart, toggleDrawer } = useCartStore();
+  const { items, sweetNote, clearCart, customer, isSignedIn, addOrder } = useCartStore();
   const router = useRouter();
 
-  const [copied, setCopied] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [showSignIn, setShowSignIn] = useState(false);
 
   const cartCount = items.reduce((n, i) => n + i.quantity, 0);
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
@@ -22,17 +21,77 @@ export default function CheckoutPage() {
   const deliveryFee = subtotal >= 1500 ? 0 : 5;
   const total = subtotal + sweetNotePrice + deliveryFee;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(UPI_ID);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const handleSubmit = () => {
+    if (!isSignedIn || !customer) {
+      setShowSignIn(true);
+      return;
+    }
+
+    const orderDetails = items.map(item => 
+      `• ${item.name} x${item.quantity} - ₹${item.price * item.quantity}`
+    ).join('\n');
+
+    const orderTotal = subtotal + sweetNotePrice + deliveryFee;
+    
+    const bakerMessage = `🔔 *New Order Received*\n\n` +
+      `*Customer ID:* ${customer.customerId}\n` +
+      `*Name:* ${customer.email.split('@')[0]}\n` +
+      `*WhatsApp:* ${customer.whatsapp}\n\n` +
+      `*Order Details:*\n${orderDetails}\n\n` +
+      `*Subtotal:* ₹${subtotal.toFixed(2)}\n` +
+      `${sweetNote ? `*Sweet Note:* ₹${sweetNotePrice.toFixed(2)}\n` : ''}` +
+      `*Delivery:* ₹${deliveryFee.toFixed(2)}\n` +
+      `*Total:* ₹${orderTotal.toFixed(2)}\n\n` +
+      `📱 Contact customer to confirm payment & collect cake customization details!`;
+
+    const customerMessage = `🎉 *Order Received!*\n\n` +
+      `Thank you for your order, ${customer.email.split('@')[0]}!\n\n` +
+      `*Order ID:* ${customer.customerId}\n` +
+      `*Total Amount:* ₹${orderTotal.toFixed(2)}\n\n` +
+      `Your order details:\n${orderDetails}\n\n` +
+      `💬 The baker will contact you on WhatsApp shortly to:\n` +
+      `• Confirm payment details\n` +
+      `• Discuss cake customization\n` +
+      `• Finalize delivery time\n\n` +
+      `Please check your WhatsApp for messages from the baker!\n\n` +
+      `Made with ❤️ by The Dessert Box`;
+
+    window.open(`https://wa.me/${BAKER_WHATSAPP.replace('+', '')}?text=${encodeURIComponent(bakerMessage)}`, '_blank');
+    window.open(`https://wa.me/${customer.whatsapp.replace('+', '')}?text=${encodeURIComponent(customerMessage)}`, '_blank');
+
+    addOrder({
+      orderId: customer.customerId,
+      items: items.map(item => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+      })),
+      subtotal,
+      sweetNote,
+      sweetNotePrice,
+      deliveryFee,
+      total: orderTotal,
+      status: 'Pending',
+      createdAt: new Date().toISOString(),
+    });
+
     setSubmitted(true);
     clearCart();
-    setTimeout(() => router.push("/"), 3000);
+    setTimeout(() => router.push("/profile"), 5000);
   };
+
+  // Show sign-in modal if not signed in
+  if (showSignIn) {
+    return (
+      <SignInModal
+        isOpen={true}
+        onClose={() => setShowSignIn(false)}
+        onSuccess={() => setShowSignIn(false)}
+      />
+    );
+  }
 
   return (
     <div className="bg-[#fef4f6] text-[#322d2f] min-h-screen">
@@ -145,112 +204,63 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* ── RIGHT: PAYMENT + UPLOAD ──────────────────────────────────── */}
+              {/* ── RIGHT: PAYMENT ───────────────────────────────────────────── */}
               <div className="lg:col-span-7 space-y-8">
 
                 {/* Payment instructions */}
                 <div className="bg-[#f9eef0] rounded-2xl p-8">
                   <h2 className="text-2xl font-bold text-[#755257] mb-6 flex items-center gap-2" style={{ fontFamily: "var(--font-jakarta)" }}>
-                    <span className="material-symbols-outlined text-[#a8275b]">account_balance_wallet</span>
-                    Payment Instructions
+                    <span className="material-symbols-outlined text-[#a8275b]">chat</span>
+                    How Payment Works
                   </h2>
 
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="space-y-4">
-                      <p className="text-[#322d2f] leading-relaxed">
-                        To finalize your order, please pay{" "}
-                        <span className="font-bold text-[#a8275b] text-xl">₹{total.toFixed(2)}</span>{" "}
-                        to the following UPI ID:
-                      </p>
-                      <div className="bg-white p-4 rounded-2xl border-2 border-[#ff70a0] flex items-center justify-between">
-                        <span className="font-bold text-[#a8275b] tracking-wider" style={{ fontFamily: "var(--font-jakarta)" }}>
-                          {UPI_ID}
-                        </span>
-                        <button
-                          onClick={handleCopy}
-                          className="text-[#a8275b] hover:bg-[#ff70a0]/20 p-2 rounded-full transition-colors"
-                        >
-                          <span className="material-symbols-outlined">
-                            {copied ? "check_circle" : "content_copy"}
-                          </span>
-                        </button>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-4 p-4 bg-white rounded-2xl">
+                      <div className="w-10 h-10 bg-[#ff70a0]/20 rounded-full flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-[#a8275b]">1</span>
                       </div>
-                      <div className="flex items-center gap-2 text-[#605a5c] text-sm">
-                        <span className="material-symbols-outlined text-base">verified_user</span>
-                        <span>Verified Business Account</span>
+                      <div>
+                        <p className="font-bold text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>Click Submit Order</p>
+                        <p className="text-sm text-[#605a5c]">Submit your order to start the payment process</p>
                       </div>
                     </div>
 
-                    {/* QR Code placeholder */}
-                    <div className="flex flex-col items-center gap-3">
-                      <div className="bg-white p-4 rounded-2xl shadow-lg relative">
-                        <div className="w-40 h-40 bg-[#ebe0e2] rounded-xl flex items-center justify-center border-2 border-dashed border-[#b3abad] relative">
-                          <span className="material-symbols-outlined text-4xl text-[#7c7577]">qr_code_2</span>
-                          {/* Corner brackets */}
-                          <div className="absolute -top-2 -left-2 w-4 h-4 border-t-4 border-l-4 border-[#a8275b]" />
-                          <div className="absolute -top-2 -right-2 w-4 h-4 border-t-4 border-r-4 border-[#a8275b]" />
-                          <div className="absolute -bottom-2 -left-2 w-4 h-4 border-b-4 border-l-4 border-[#a8275b]" />
-                          <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b-4 border-r-4 border-[#a8275b]" />
-                        </div>
+                    <div className="flex items-start gap-4 p-4 bg-white rounded-2xl">
+                      <div className="w-10 h-10 bg-[#ff70a0]/20 rounded-full flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-[#a8275b]">2</span>
                       </div>
-                      <span className="text-xs font-bold uppercase tracking-widest text-[#605a5c]">Scan to Pay</span>
+                      <div>
+                        <p className="font-bold text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>Chat with Baker on WhatsApp</p>
+                        <p className="text-sm text-[#605a5c]">A WhatsApp chat will open with the baker to discuss payment & cake customization</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4 p-4 bg-white rounded-2xl">
+                      <div className="w-10 h-10 bg-[#ff70a0]/20 rounded-full flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-[#a8275b]">3</span>
+                      </div>
+                      <div>
+                        <p className="font-bold text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>Confirm & Pay</p>
+                        <p className="text-sm text-[#605a5c]">The baker will share payment details and you can confirm your cake customization</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Upload section */}
-                <div className="bg-white rounded-2xl p-8 shadow-[0px_20px_40px_rgba(74,44,49,0.04)]">
-                  <h2 className="text-2xl font-bold text-[#755257] mb-6 flex items-center gap-2" style={{ fontFamily: "var(--font-jakarta)" }}>
-                    <span className="material-symbols-outlined text-[#a8275b]">cloud_upload</span>
-                    Upload Payment Screenshot
-                  </h2>
-
-                  <label className="block group cursor-pointer">
-                    <div className={`border-4 border-dashed rounded-2xl p-12 text-center transition-all ${file ? "border-[#a8275b] bg-[#ff70a0]/5" : "border-[#ff70a0]/50 group-hover:border-[#a8275b] group-hover:bg-[#ff70a0]/5"}`}>
-                      <input
-                        ref={fileRef}
-                        className="hidden"
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                      />
-                      <div className="w-16 h-16 bg-[#ff70a0] rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                        <span className="material-symbols-outlined text-[#4c0023] text-3xl">cloud</span>
-                      </div>
-                      {file ? (
-                        <>
-                          <p className="font-bold text-lg text-[#a8275b] mb-1" style={{ fontFamily: "var(--font-jakarta)" }}>
-                            {file.name}
-                          </p>
-                          <p className="text-sm text-[#605a5c]">
-                            {(file.size / 1024 / 1024).toFixed(2)} MB — click to change
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="font-bold text-lg text-[#322d2f] mb-2" style={{ fontFamily: "var(--font-jakarta)" }}>
-                            Click to select file
-                          </p>
-                          <p className="text-sm text-[#605a5c]">Supports images (JPG, PNG) up to 5MB</p>
-                        </>
-                      )}
-                    </div>
-                  </label>
-
-                  <div className="mt-10">
-                    <button
-                      onClick={handleSubmit}
-                      disabled={items.length === 0}
-                      className="w-full bg-[#a8275b] disabled:opacity-50 text-white py-5 rounded-full font-extrabold text-xl shadow-[0px_10px_20px_rgba(168,39,91,0.2)] hover:shadow-[0px_15px_30px_rgba(168,39,91,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-3"
-                      style={{ fontFamily: "var(--font-jakarta)" }}
-                    >
-                      <span>Submit Order for Verification</span>
-                      <span className="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                    <p className="text-center text-[#605a5c] text-sm mt-4 italic">
-                      By submitting, you agree to our terms of service for custom orders.
-                    </p>
-                  </div>
+                {/* Submit button */}
+                <div className="mt-10">
+                  <button
+                    onClick={handleSubmit}
+                    disabled={items.length === 0}
+                    className="w-full bg-[#a8275b] disabled:opacity-50 text-white py-5 rounded-full font-extrabold text-xl shadow-[0px_10px_20px_rgba(168,39,91,0.2)] hover:shadow-[0px_15px_30px_rgba(168,39,91,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+                    style={{ fontFamily: "var(--font-jakarta)" }}
+                  >
+                    <span>Submit Order for Verification</span>
+                    <span className="material-symbols-outlined">arrow_forward</span>
+                  </button>
+                  <p className="text-center text-[#605a5c] text-sm mt-4 italic">
+                    By submitting, you agree to our terms of service for custom orders.
+                  </p>
                 </div>
               </div>
             </div>

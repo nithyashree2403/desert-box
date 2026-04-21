@@ -10,8 +10,9 @@ export function Navbar() {
   const pathname = usePathname();
   const toggleDrawer = useCartStore((state) => state.toggleDrawer);
   const items = useCartStore((state) => state.items);
+  const { isSignedIn, customer } = useCartStore();
 
-  const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const cartCount = items.reduce((sum, item) => item.quantity + sum, 0);
 
   // Hide Navbar on Home and Auth pages. The global layout renders this.
   const isHidden = pathname === "/" || pathname?.startsWith("/admin") || pathname?.startsWith("/auth");
@@ -72,6 +73,28 @@ export function Navbar() {
               </span>
             )}
           </button>
+          
+          {/* Profile Button */}
+          {isSignedIn && customer ? (
+            <Link
+              href="/profile"
+              className="flex items-center gap-2 bg-[#f0e6e8] text-[#a8275b] px-4 py-2 rounded-full font-bold shadow-md active:scale-95 transition-all hover:bg-[#ebe0e2]"
+              style={{ fontFamily: "var(--font-jakarta)" }}
+            >
+              <span className="material-symbols-outlined">account_circle</span>
+              <span className="hidden sm:inline text-sm">{customer.customerId}</span>
+            </Link>
+          ) : (
+            <Link
+              href="/checkout"
+              className="flex items-center gap-2 bg-[#f9cc61] text-[#4a2c31] px-4 py-2 rounded-full font-bold shadow-md active:scale-95 transition-all hover:bg-[#f5c04f]"
+              style={{ fontFamily: "var(--font-jakarta)" }}
+            >
+              <span className="material-symbols-outlined">login</span>
+              <span className="hidden sm:inline text-sm">Sign In</span>
+            </Link>
+          )}
+          
           <button className="md:hidden text-[#a8275b]">
             <span className="material-symbols-outlined text-2xl">menu</span>
           </button>

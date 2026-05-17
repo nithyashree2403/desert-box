@@ -30,7 +30,7 @@ const classicItems = [
     name: "Red Velvet",
     startingAt: "Starting at ₹450",
     description: "Classic cocoa-infused red sponge with our signature tangy frosting.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC63EHPWA4UdhOPFyLfLFLx_USTLt3i3qvxUB9mz19fX9VAV111n9VPS3SRyo4KMDzgwGncdIhIMaGDwxu-boS3W23bQOB5EZAzi9CHQE_okkFpHDRQiwl9kBJO504PjJaK7R3K5aM5iNOFhlW6UKf2em6zNzJJtOd3XWWA1Nhq0BWQNAtky4ld6Or2xeXTJZtC5ld6Or2xeXTJZtC5E_GsPVm0On1mywIx1QZekoH_Xhd0HLmuk4ZLj9j0Mt8md2kQ0JuqJMENZy0Ci7eGxEktzIuK_4",
+    image: "/img/Gemini_Generated_Image_i2ozc3i2ozc3i2oz.png",
     badge: "Bestseller",
     hoverLabel: null,
   },

@@ -36,8 +36,7 @@ export const metadata: Metadata = {
 };
 
 import { Navbar } from "@/components/navbar";
-import { CartDrawer } from "@/components/cart-drawer";
-import { CheckoutModal } from "@/components/checkout-modal";
+import { ClientProviders } from "@/components/client-providers";
 
 export default function RootLayout({
   children,
@@ -50,8 +49,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" />
         <Navbar />
         {children}
-        <CartDrawer />
-        <CheckoutModal />
+        <ClientProviders />
       </body>
     </html>
   );

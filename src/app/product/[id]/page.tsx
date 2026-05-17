@@ -33,38 +33,38 @@ const PRODUCTS: Record<string, {
   },
   "prod-02": {
     id: "prod-02",
-    name: "Strawberry Bento",
-    price: 400,
+    name: "Kitkat Cake",
+    price: 650,
     badge: undefined,
-    description: "Fresh garden strawberries blended into a fluffy cream cloud on our signature sponge. A burst of summer in every bite.",
-    ingredients: "Vanilla bean infused sponge, fresh strawberries, whipped cream, cream cheese frosting.",
-    allergens: "Contains: Dairy, Eggs, Gluten.",
+    description: "Layers of chocolate sponge with crunchy KitKat pieces and smooth chocolate ganache. A delightful crunch in every bite.",
+    ingredients: "Chocolate sponge, KitKat pieces, chocolate ganache, whipped cream, butter, cocoa powder, free-range eggs.",
+    allergens: "Contains: Dairy, Eggs, Gluten, Nuts.",
     highlights: [
       { icon: "local_fire_department", label: "Freshly baked" },
-      { icon: "spa", label: "Summer special" },
-      { icon: "group", label: "Serves 1-2" },
+      { icon: "favorite", label: "Chocolate delight" },
+      { icon: "group", label: "Serves 2-3" },
     ],
-    heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuACeJSxXQlRkfVVLaIbD24GpJ1yh0a_13q37YNvTXk_akEJ4k0AMvCfDwUjJ18N8RMKubYs3qIoDdpt5QrKId-Hb-ikCNSj7Z7luOMEqd9lw3M1ct-tsq_Ahv7qJ32PQ_Ufc4oWgrlSUsaB-ZYA3fNUW-1NLmWVGKh1b9wmw6ru0DwSqwhwaJuXrWepom2eMhgvmM-Uh0R2NPzXt-XWaBTyolmFwG7hAXRlzJgTpP0gckwQ1TM24TxPnTsuFRpV1-gGLmUAPXj5VFc",
-    thumb1: "https://lh3.googleusercontent.com/aida-public/AB6AXuAG8SZeXAPEkgy4tCxpPAI4sgEFUbHjtXs5W9i-QogvXtqlzPTtR3rp88jV-IPm9WQg7kHcwrXti7hvqvnq9D7Elm-6g2Gqdm07MVGClyM3kpbe5acnXudmT1q6V_8EN8X1mSebq9uBF9AbYQVRiaf4OEt78ncMxzhoM4x5Rhhy-me7xEZzJDPseTep236XTzLzaUdl7TaAcdTIPtesjdazwed9sBDiUNfVoRSQAn0Cbw0wet0d6zkDaspO3fMYrSsR77w5MWxQz7w",
-    thumb2: "https://lh3.googleusercontent.com/aida-public/AB6AXuB4XspH8GAaCTsUrXxJsiscOSZ1RjMTgSAk6oj2-Oc1lrPqayI-kfW43Edx1JS8g0FjDiRmVyqPXwkv5IZ8q6hzAB9irLbT-wkCe_ByIulNZdWU3v8e2u-yGDZSgsJ4XdzIW560jtZEoFanKqR6AIowB9hyfEhT6WJcfBPNyO6eDgegnSsMLTsgHAt_GzWh_g_cFqJriqmxDx1s8axuJydgRC9MV5lsUT-g-mw7i53QTDt_5_JiQigD8Ld22HSOynA_2KX3fWUrRQM",
+    heroImage: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
+    thumb1: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
+    thumb2: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
     category: "Classic & Premium",
   },
   "prod-03": {
     id: "prod-03",
-    name: "Vanilla Bento",
-    price: 400,
+    name: "Black Forest",
+    price: 450,
     badge: undefined,
-    description: "Premium Madagascar vanilla bean infused sponge with light buttercream frosting. Simple, elegant, and utterly perfect.",
-    ingredients: "Flour, Butter, Sugar, Madagascar Vanilla Bean, Free-range Eggs, Milk.",
-    allergens: "Contains: Dairy, Eggs, Gluten.",
+    description: "Rich dark chocolate sponge layered with fresh cherries, whipped cream, and dark chocolate shavings. A timeless classic with a modern twist.",
+    ingredients: "Dark chocolate (70%), Fresh cherries, Whipped cream, Cocoa powder, Free-range eggs, Madagascar vanilla, Butter.",
+    allergens: "Contains: Dairy, Eggs, Gluten, Nuts (may contain traces).",
     highlights: [
       { icon: "local_fire_department", label: "Freshly baked" },
-      { icon: "star", label: "Chef's signature" },
-      { icon: "group", label: "Serves 1-2" },
+      { icon: "favorite", label: "Cherry delight" },
+      { icon: "group", label: "Serves 2-3" },
     ],
-    heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6hWw9V6L4VcdCb8efSrUr9m91whjicasVO8DfeOLvuK3kd721u4dMWjsm8-2GQjeTI4C4P0bO4Gypxob1crpVp2EqDsB6QvMug-yWFOVsBTtu8e0mKsMe3fkar1zHO5ivlIcrjboAUPXQJfXWW7z04oqwNQ1iZsciIOBMzXG_Wwg9h7WWIv3XK2MojmXmcbWs-_VN8RxrwCkbN2dz18TABVW0g6A5Kpsmdz4bXPp2vM8_ENEtoQk5pyaKf6GLFB1I3lWW3sqUCFc",
-    thumb1: "https://lh3.googleusercontent.com/aida-public/AB6AXuAG8SZeXAPEkgy4tCxpPAI4sgEFUbHjtXs5W9i-QogvXtqlzPTtR3rp88jV-IPm9WQg7kHcwrXti7hvqvnq9D7Elm-6g2Gqdm07MVGClyM3kpbe5acnXudmT1q6V_8EN8X1mSebq9uBF9AbYQVRiaf4OEt78ncMxzhoM4x5Rhhy-me7xEZzJDPseTep236XTzLzaUdl7TaAcdTIPtesjdazwed9sBDiUNfVoRSQAn0Cbw0wet0d6zkDaspO3fMYrSsR77w5MWxQz7w",
-    thumb2: "https://lh3.googleusercontent.com/aida-public/AB6AXuB4XspH8GAaCTsUrXxJsiscOSZ1RjMTgSAk6oj2-Oc1lrPqayI-kfW43Edx1JS8g0FjDiRmVyqPXwkv5IZ8q6hzAB9irLbT-wkCe_ByIulNZdWU3v8e2u-yGDZSgsJ4XdzIW560jtZEoFanKqR6AIowB9hyfEhT6WJcfBPNyO6eDgegnSsMLTsgHAt_GzWh_g_cFqJriqmxDx1s8axuJydgRC9MV5lsUT-g-mw7i53QTDt_5_JiQigD8Ld22HSOynA_2KX3fWUrRQM",
+    heroImage: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
+    thumb1: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
+    thumb2: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
     category: "Classic & Premium",
   },
 };
@@ -72,15 +72,15 @@ const PRODUCTS: Record<string, {
 const recommendations = [
   {
     id: "prod-03",
-    name: "Vanilla Bento",
-    price: "₹650",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6hWw9V6L4VcdCb8efSrUr9m91whjicasVO8DfeOLvuK3kd721u4dMWjsm8-2GQjeTI4C4P0bO4Gypxob1crpVp2EqDsB6QvMug-yWFOVsBTtu8e0mKsMe3fkar1zHO5ivlIcrjboAUPXQJfXWW7z04oqwNQ1iZsciIOBMzXG_Wwg9h7WWIv3XK2MojmXmcbWs-_VN8RxrwCkbN2dz18TABVW0g6A5Kpsmdz4bXPp2vM8_ENEtoQk5pyaKf6GLFB1I3lWW3sqUCFc",
+    name: "Black Forest",
+    price: "₹700",
+    image: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
   },
   {
     id: "prod-02",
-    name: "Strawberry Bento",
+    name: "Kitkat Cake",
     price: "₹700",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuC5MYYUZnesoO_T8OUuOoCKtAzXzbBDMjd3i9cCS-v5Hfz-LgM7ZRVVOL9ZAmXMmaQZG9oSZdIXPrqhNpYo_3RQHmCY6DilhQbj3dguk3DN9qXsJHVPyNWtaM5YB0FsS824ua1a538wFALIOOP17ukfW-zC83nfF-ZaZDM5Crwzm2U65fhLEx7MMxYTNj2ynKoxV2xneRuTm12xmknhMDVyk29iCTe19Lr7fapiN4JSRH5tCSainl1hNv3zc4fI5bznz7ytNwPSl5c",
+    image: "public/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
   },
 ];
 
@@ -97,7 +97,6 @@ export default function ProductPage() {
 
   const handleAdd = () => {
     addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.heroImage, category: product.category });
-    toggleDrawer();
   };
 
   return (

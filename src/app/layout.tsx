@@ -37,6 +37,7 @@ export const metadata: Metadata = {
 
 import { Navbar } from "@/components/navbar";
 import { CartDrawer } from "@/components/cart-drawer";
+import { CheckoutModal } from "@/components/checkout-modal";
 
 export default function RootLayout({
   children,
@@ -50,6 +51,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <CartDrawer />
+        <CheckoutModal />
       </body>
     </html>
   );

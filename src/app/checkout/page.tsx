@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const BAKER_WHATSAPP = "+919843667890";
+const BAKER_WHATSAPP = "+918147491854";
 
 export default function CheckoutPage() {
   const { items, sweetNote, clearCart, customer, isSignedIn, addOrder } = useCartStore();
@@ -14,6 +14,7 @@ export default function CheckoutPage() {
 
   const [submitted, setSubmitted] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cartCount = items.reduce((n, i) => n + i.quantity, 0);
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
@@ -22,10 +23,14 @@ export default function CheckoutPage() {
   const total = subtotal + sweetNotePrice + deliveryFee;
 
   const handleSubmit = () => {
+    if (isSubmitting) return; // Prevent double submission
+    
     if (!isSignedIn || !customer) {
       setShowSignIn(true);
       return;
     }
+
+    setIsSubmitting(true);
 
     const orderDetails = items.map(item => 
       `• ${item.name} x${item.quantity} - ₹${item.price * item.quantity}`
@@ -135,6 +140,12 @@ export default function CheckoutPage() {
 
               {/* ── LEFT: ORDER SUMMARY ─────────────────────────────────────── */}
               <div className="lg:col-span-5 space-y-6">
+                {isSubmitting && (
+                  <div className="bg-[#a8275b]/10 border-l-4 border-[#a8275b] p-4 rounded-lg flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[#a8275b] animate-spin">lock</span>
+                    <span className="font-semibold text-[#a8275b]">Cart is protected while processing your order...</span>
+                  </div>
+                )}
                 <div className="bg-white rounded-2xl p-8 shadow-[0px_20px_40px_rgba(74,44,49,0.04)] relative overflow-hidden">
                   <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#f9cc61]/30 rounded-full blur-2xl" />
 
@@ -251,12 +262,21 @@ export default function CheckoutPage() {
                 <div className="mt-10">
                   <button
                     onClick={handleSubmit}
-                    disabled={items.length === 0}
-                    className="w-full bg-[#a8275b] disabled:opacity-50 text-white py-5 rounded-full font-extrabold text-xl shadow-[0px_10px_20px_rgba(168,39,91,0.2)] hover:shadow-[0px_15px_30px_rgba(168,39,91,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+                    disabled={items.length === 0 || isSubmitting}
+                    className="w-full bg-[#a8275b] disabled:opacity-50 disabled:cursor-not-allowed text-white py-5 rounded-full font-extrabold text-xl shadow-[0px_10px_20px_rgba(168,39,91,0.2)] hover:shadow-[0px_15px_30px_rgba(168,39,91,0.3)] transition-all active:scale-[0.98] flex items-center justify-center gap-3"
                     style={{ fontFamily: "var(--font-jakarta)" }}
                   >
-                    <span>Submit Order for Verification</span>
-                    <span className="material-symbols-outlined">arrow_forward</span>
+                    {isSubmitting ? (
+                      <>
+                        <span className="inline-block animate-spin">⏳</span>
+                        <span>Processing Order...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Submit Order for Verification</span>
+                        <span className="material-symbols-outlined">arrow_forward</span>
+                      </>
+                    )}
                   </button>
                   <p className="text-center text-[#605a5c] text-sm mt-4 italic">
                     By submitting, you agree to our terms of service for custom orders.

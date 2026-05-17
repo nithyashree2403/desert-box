@@ -11,22 +11,22 @@ export const PRODUCTS = [
   },
   {
     id: "prod-02",
-    name: "Strawberry Bento",
-    description: "Fresh garden strawberries blended into a fluffy cream cloud on our signature sponge.",
-    price: 400,
+    name: "Kitkat Cake",
+    description: "Layers of chocolate sponge with crunchy KitKat pieces and smooth chocolate ganache.",
+    price: 650,
     category: "Classic & Premium",
-    ingredients: "Vanilla bean infused sponge, cream, strawberries.",
-    allergens: "Dairy, Eggs, Gluten",
+    ingredients: "Chocolate sponge, KitKat pieces, chocolate ganache, whipped cream, butter.",
+    allergens: "Dairy, Eggs, Gluten, Nuts",
     isBestSeller: false
   },
   {
     id: "prod-03",
-    name: "Vanilla Bento Cake",
-    description: "Premium Madagascar vanilla bean infused sponge with light buttercream.",
-    price: 400,
+    name: "Black Forest Cake",
+    description: "Rich dark chocolate sponge layered with fresh cherries, whipped cream, and dark chocolate shavings.",
+    price: 450,
     category: "Classic & Premium",
-    ingredients: "Flour, Butter, Sugar, Vanilla.",
-    allergens: "Dairy, Eggs, Gluten",
+    ingredients: "Dark chocolate (70%), Fresh cherries, Whipped cream, Cocoa powder, Free-range eggs, Madagascar vanilla.",
+    allergens: "Dairy, Eggs, Gluten, Nuts",
     isBestSeller: false
   },
   {

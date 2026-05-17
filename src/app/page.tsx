@@ -20,7 +20,7 @@ export default function HomePage() {
           <img
             alt="The Baker"
             className="absolute inset-0 w-full h-full object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPYnyM1Hoa2UN3olc0GGFCOZZ20W7uw3w07ODsQA7_tC_bQks4-SDeYuix4KsYFFzvKihpTrEhNm4RV4-MyI1pyc8I2perRDWc3ePKyludckrhySyr5VrPyBfUvpnyYLnfTJE8Hi3mCwX7ykA4l007eN6GokXliiSZD1WdUt1TaIFLVsTpm1o1A48Ky5r_oZitJ4Ut7MJkcAI9kVaFyhd0tKCQDH2p303OYNKlS1GJD1Jd362lt-XZUkAWd_BO_E3mCrvvFoEN5PA"
+            src="/img/baker_hero.png"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#4c0023]/60 to-transparent" />
           <div className="relative z-10 px-12 max-w-2xl">

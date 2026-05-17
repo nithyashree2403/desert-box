@@ -9,19 +9,19 @@ import Link from "next/link";
 const classicItems = [
   {
     id: "prod-03",
-    name: "Vanilla",
-    startingAt: "Starting at ₹400",
-    description: "Premium Madagascar vanilla bean infused sponge with light buttercream.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuB4qa3vGW-5XCjhwTrD_n6M_dChyxvjtGL1tYzwRxRsBP4gkeJMFaDhGc4-mHmsZ-TtsE4TZDG0oe-5D4CED-PmAQ3MSXooqrxIx3nrgA7c_DE41kLB8RNjIyNc-YM0RnKGw1VMo_YS29bVGIW6OtU_M_EgoVe7Bsh5DxGxfh4xNU0eP2CTlK5EWXJLcJ6ms6M7iCc4fb8Uo447XX-OOpMnzKbRqUMgKE-I4G_IiKAy_jorOHn-LSIj2JXam8LbxVjZVhqKmtuASvk",
+    name: "Black Forest",
+    startingAt: "Starting at ₹450",
+    description: "Rich chocolate layers with fresh cherries and whipped cream in perfect harmony.",
+    image: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
     badge: null,
-    hoverLabel: "Chef's Signature",
+    hoverLabel: "Cherry Classic",
   },
   {
     id: "prod-02",
-    name: "Strawberry",
-    startingAt: "Starting at ₹400",
-    description: "Fresh garden strawberries blended into a fluffy cream cloud.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuACeJSxXQlRkfVVLaIbD24GpJ1yh0a_13q37YNvTXk_akEJ4k0AMvCfDwUjJ18N8RMKubYs3qIoDdpt5QrKId-Hb-ikCNSj7Z7luOMEqd9lw3M1ct-tsq_Ahv7qJ32PQ_Ufc4oWgrlSUsaB-ZYA3fNUW-1NLmWVGKh1b9wmw6ru0DwSqwhwaJuXrWepom2eMhgvmM-Uh0R2NPzXt-XWaBTyolmFwG7hAXRlzJgTpP0gckwQ1TM24TxPnTsuFRpV1-gGLmUAPXj5VFc",
+    name: "Kitkat Cake",
+    startingAt: "Starting at ₹650",
+    description: "Crunchy KitKat pieces embedded in smooth chocolate cake with creamy frosting.",
+    image: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
     badge: null,
     hoverLabel: null,
   },
@@ -194,7 +194,9 @@ export default function MenuPage() {
                     </p>
                   </div>
                   <button
-                    onClick={() => addItem({ id: "prod-01", name: "Death By Chocolate", price: 750, quantity: 1, image: "", category: "For Chocolate Lovers" })}
+                    onClick={() => {
+                      addItem({ id: "prod-01", name: "Death By Chocolate", price: 750, quantity: 1, image: "", category: "For Chocolate Lovers" });
+                    }}
                     className="bg-white text-[#a8275b] p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95"
                   >
                     <span className="material-symbols-outlined">add_shopping_cart</span>
@@ -216,7 +218,9 @@ export default function MenuPage() {
                 <span className="block text-[#755257] font-bold text-sm mb-1">₹600</span>
                 <p className="text-xs text-[#605a5c] mb-4">Silky ganache with deep cocoa notes.</p>
                 <button
-                  onClick={() => addItem({ id: "prod-ct", name: "Choco Truffle", price: 600, quantity: 1, image: "", category: "For Chocolate Lovers" })}
+                  onClick={() => {
+                    addItem({ id: "prod-ct", name: "Choco Truffle", price: 600, quantity: 1, image: "", category: "For Chocolate Lovers" });
+                  }}
                   className="text-[#98184f] font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all"
                 >
                   Add to Box <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -232,7 +236,9 @@ export default function MenuPage() {
                   {crunchyClassics.map((item, i) => (
                     <li
                       key={item.id}
-                      onClick={() => addItem({ id: item.id, name: item.name, price: parseInt(item.price.replace("₹", "")), quantity: 1, image: "", category: "For Chocolate Lovers" })}
+                      onClick={() => {
+                        addItem({ id: item.id, name: item.name, price: parseInt(item.price.replace("₹", "")), quantity: 1, image: "", category: "For Chocolate Lovers" });
+                      }}
                       className={`flex justify-between items-center group/item cursor-pointer ${i > 0 ? "border-t border-white/10 pt-4" : ""}`}
                     >
                       <span>{item.name} - {item.price}</span>
@@ -275,7 +281,9 @@ export default function MenuPage() {
                     </div>
                     <h4 className="font-bold text-sm mb-3">{item.name}</h4>
                     <button
-                      onClick={() => addItem({ id: item.id, name: item.name, price: 199, quantity: 1, image: "", category: "Mini Bites" })}
+                      onClick={() => {
+                        addItem({ id: item.id, name: item.name, price: 199, quantity: 1, image: "", category: "Mini Bites" });
+                      }}
                       className="text-[10px] font-bold uppercase tracking-widest text-[#a8275b] border border-[#a8275b]/20 px-4 py-1 rounded-full group-hover:bg-[#a8275b] group-hover:text-white transition-colors"
                     >
                       <span className="mr-1">₹199</span>Add

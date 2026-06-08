@@ -2,12 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/lib/store";
+import { useEffect, useState } from "react";
 
 export function CheckoutModal() {
   const router = useRouter();
   const { isCheckoutModalOpen, setCheckoutModalOpen, items } = useCartStore();
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (!isCheckoutModalOpen) return null;
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted || !isCheckoutModalOpen) return null;
 
   const handleProceedToCheckout = () => {
     setCheckoutModalOpen(false);

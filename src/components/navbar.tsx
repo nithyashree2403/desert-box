@@ -5,12 +5,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/lib/store";
+import { useEffect, useState } from "react";
 
 export function Navbar() {
   const pathname = usePathname();
   const toggleDrawer = useCartStore((state) => state.toggleDrawer);
   const items = useCartStore((state) => state.items);
   const { isSignedIn, customer } = useCartStore();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const cartCount = items.reduce((sum, item) => item.quantity + sum, 0);
 
@@ -67,7 +73,7 @@ export function Navbar() {
           >
             <span className="material-symbols-outlined">shopping_cart</span>
             <span className="hidden sm:inline">Cart</span>
-            {cartCount > 0 && (
+            {isMounted && cartCount > 0 && (
               <span className="ml-1 bg-white text-[#a8275b] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                 {cartCount}
               </span>
@@ -75,7 +81,7 @@ export function Navbar() {
           </button>
           
           {/* Profile Button */}
-          {isSignedIn && customer ? (
+          {isMounted && isSignedIn && customer ? (
             <Link
               href="/profile"
               className="flex items-center gap-2 bg-[#f0e6e8] text-[#a8275b] px-4 py-2 rounded-full font-bold shadow-md active:scale-95 transition-all hover:bg-[#ebe0e2]"

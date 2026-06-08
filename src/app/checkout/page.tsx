@@ -15,12 +15,28 @@ export default function CheckoutPage() {
   const [submitted, setSubmitted] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [cakeName, setCakeName] = useState("");
+  const [cakeTheme, setCakeTheme] = useState("classic");
+  const [referencePhoto, setReferencePhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string>("");
 
   const cartCount = items.reduce((n, i) => n + i.quantity, 0);
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const sweetNotePrice = sweetNote ? 3.5 : 0;
   const deliveryFee = subtotal >= 1500 ? 0 : 5;
   const total = subtotal + sweetNotePrice + deliveryFee;
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setReferencePhoto(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = () => {
     if (isSubmitting) return; // Prevent double submission
@@ -43,21 +59,30 @@ export default function CheckoutPage() {
       `*Name:* ${customer.email.split('@')[0]}\n` +
       `*WhatsApp:* ${customer.whatsapp}\n\n` +
       `*Order Details:*\n${orderDetails}\n\n` +
+      `*Customization:*\n` +
+      `${cakeName ? `• Cake Name/Text: ${cakeName}\n` : ''}` +
+      `• Theme: ${cakeTheme.charAt(0).toUpperCase() + cakeTheme.slice(1)}\n` +
+      `${referencePhoto ? `• Reference Photo: Attached\n` : ''}` +
+      `\n*Pricing:*\n` +
       `*Subtotal:* ₹${subtotal.toFixed(2)}\n` +
       `${sweetNote ? `*Sweet Note:* ₹${sweetNotePrice.toFixed(2)}\n` : ''}` +
       `*Delivery:* ₹${deliveryFee.toFixed(2)}\n` +
       `*Total:* ₹${orderTotal.toFixed(2)}\n\n` +
-      `📱 Contact customer to confirm payment & collect cake customization details!`;
+      `📱 Contact customer to confirm payment & finalize cake customization!`;
 
     const customerMessage = `🎉 *Order Received!*\n\n` +
       `Thank you for your order, ${customer.email.split('@')[0]}!\n\n` +
       `*Order ID:* ${customer.customerId}\n` +
       `*Total Amount:* ₹${orderTotal.toFixed(2)}\n\n` +
       `Your order details:\n${orderDetails}\n\n` +
-      `💬 The baker will contact you on WhatsApp shortly to:\n` +
+      `*Your Customization:*\n` +
+      `${cakeName ? `• Cake Name/Text: ${cakeName}\n` : ''}` +
+      `• Theme: ${cakeTheme.charAt(0).toUpperCase() + cakeTheme.slice(1)}\n` +
+      `${referencePhoto ? `• Reference Photo: Uploaded\n` : ''}` +
+      `\n💬 The baker will contact you on WhatsApp shortly to:\n` +
       `• Confirm payment details\n` +
-      `• Discuss cake customization\n` +
-      `• Finalize delivery time\n\n` +
+      `• Finalize cake customization\n` +
+      `• Discuss delivery time\n\n` +
       `Please check your WhatsApp for messages from the baker!\n\n` +
       `Made with ❤️ by The Dessert Box`;
 
@@ -217,6 +242,99 @@ export default function CheckoutPage() {
 
               {/* ── RIGHT: PAYMENT ───────────────────────────────────────────── */}
               <div className="lg:col-span-7 space-y-8">
+
+                {/* ── CUSTOMIZATION SECTION ────────────────────────────────── */}
+                <div className="bg-gradient-to-br from-[#fff5f8] to-[#f9eef0] rounded-2xl p-8 border border-[#ff70a0]/20">
+                  <h2 className="text-2xl font-bold text-[#a8275b] mb-6 flex items-center gap-2" style={{ fontFamily: "var(--font-jakarta)" }}>
+                    <span className="material-symbols-outlined text-[#a8275b]">palette</span>
+                    Customize Your Cake
+                  </h2>
+
+                  <div className="space-y-6">
+                    {/* Cake Name/Text */}
+                    <div>
+                      <label className="block text-sm font-bold text-[#755257] mb-2">
+                        <span className="material-symbols-outlined text-sm align-text-bottom mr-1" style={{ display: 'inline' }}>edit</span>
+                        Name or Text to Write on Cake
+                      </label>
+                      <input
+                        type="text"
+                        value={cakeName}
+                        onChange={(e) => setCakeName(e.target.value)}
+                        placeholder="e.g., Happy Birthday Sarah, Congratulations!"
+                        className="w-full px-4 py-3 border-2 border-[#e5dadd] rounded-xl bg-white text-[#322d2f] placeholder:text-[#b3abad] focus:outline-none focus:border-[#a8275b] transition-colors"
+                      />
+                      <p className="text-xs text-[#605a5c] mt-1">Leave blank for no text</p>
+                    </div>
+
+                    {/* Theme Selection */}
+                    <div>
+                      <label className="block text-sm font-bold text-[#755257] mb-3">
+                        <span className="material-symbols-outlined text-sm align-text-bottom mr-1" style={{ display: 'inline' }}>style</span>
+                        Theme
+                      </label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        {[
+                          { id: 'classic', name: 'Classic', emoji: '🎂' },
+                          { id: 'elegant', name: 'Elegant', emoji: '✨' },
+                          { id: 'playful', name: 'Playful', emoji: '🎉' },
+                          { id: 'romantic', name: 'Romantic', emoji: '💕' },
+                          { id: 'minimal', name: 'Minimal', emoji: '🤍' },
+                          { id: 'custom', name: 'Custom', emoji: '🎨' },
+                        ].map((theme) => (
+                          <button
+                            key={theme.id}
+                            onClick={() => setCakeTheme(theme.id)}
+                            className={`p-3 rounded-xl border-2 font-bold text-sm transition-all flex flex-col items-center gap-2 ${
+                              cakeTheme === theme.id
+                                ? 'border-[#a8275b] bg-[#a8275b]/10 text-[#a8275b]'
+                                : 'border-[#e5dadd] bg-white text-[#755257] hover:border-[#a8275b]/50'
+                            }`}
+                          >
+                            <span className="text-xl">{theme.emoji}</span>
+                            {theme.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Reference Photo Upload */}
+                    <div>
+                      <label className="block text-sm font-bold text-[#755257] mb-2">
+                        <span className="material-symbols-outlined text-sm align-text-bottom mr-1" style={{ display: 'inline' }}>image</span>
+                        Reference Photo (Optional)
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                          className="hidden"
+                          id="photo-upload"
+                        />
+                        <label
+                          htmlFor="photo-upload"
+                          className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-[#e5dadd] rounded-xl cursor-pointer hover:border-[#a8275b] hover:bg-[#a8275b]/5 transition-all"
+                        >
+                          {photoPreview ? (
+                            <div className="w-full text-center">
+                              <img src={photoPreview} alt="Preview" className="max-h-32 mx-auto rounded-lg mb-2" />
+                              <p className="text-sm font-bold text-[#a8275b]">Photo uploaded ✓</p>
+                              <p className="text-xs text-[#605a5c]">Click to change</p>
+                            </div>
+                          ) : (
+                            <div className="text-center">
+                              <span className="material-symbols-outlined text-[#a8275b] text-3xl">cloud_upload</span>
+                              <p className="text-sm font-bold text-[#755257] mt-2">Upload Reference Photo</p>
+                              <p className="text-xs text-[#605a5c]">PNG, JPG, GIF up to 10MB</p>
+                            </div>
+                          )}
+                        </label>
+                      </div>
+                      <p className="text-xs text-[#605a5c] mt-1">Share your design inspiration or specific cake design you'd like us to recreate</p>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Payment instructions */}
                 <div className="bg-[#f9eef0] rounded-2xl p-8">

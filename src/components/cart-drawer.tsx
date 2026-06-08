@@ -2,6 +2,7 @@
 
 import { useCartStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export function CartDrawer() {
   const {
@@ -15,6 +16,11 @@ export function CartDrawer() {
     clearCart,
   } = useCartStore();
   const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const packagingFee = 5;
@@ -23,7 +29,7 @@ export function CartDrawer() {
   const progress = Math.min((subtotal / 1500) * 100, 100);
   const remaining = Math.max(1500 - subtotal, 0);
 
-  if (!isDrawerOpen) return null;
+  if (!isMounted || !isDrawerOpen) return null;
 
   return (
     <>

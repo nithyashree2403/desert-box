@@ -134,7 +134,10 @@ export default function MenuPage() {
                   <span className="block text-[#98184f] font-bold text-sm mb-2">{item.startingAt}</span>
                   <p className="text-sm text-[#605a5c] mb-4 line-clamp-2 flex-1">{item.description}</p>
                   <button
-                    onClick={() => addItem({ id: item.id, name: item.name, price: 400, quantity: 1, image: item.image, category: "Classic & Premium" })}
+                    onClick={() => {
+                      addItem({ id: item.id, name: item.name, price: 400, quantity: 1, image: item.image, category: "Classic & Premium" });
+                      toggleDrawer();
+                    }}
                     className="w-full py-3 rounded-full bg-[#a8275b] text-white font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 hover:bg-[#98184f]"
                   >
                     <span className="material-symbols-outlined text-lg">add_circle</span>
@@ -196,6 +199,7 @@ export default function MenuPage() {
                   <button
                     onClick={() => {
                       addItem({ id: "prod-01", name: "Death By Chocolate", price: 750, quantity: 1, image: "", category: "For Chocolate Lovers" });
+                      toggleDrawer();
                     }}
                     className="bg-white text-[#a8275b] p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95"
                   >
@@ -220,6 +224,7 @@ export default function MenuPage() {
                 <button
                   onClick={() => {
                     addItem({ id: "prod-ct", name: "Choco Truffle", price: 600, quantity: 1, image: "", category: "For Chocolate Lovers" });
+                    toggleDrawer();
                   }}
                   className="text-[#98184f] font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all"
                 >
@@ -238,6 +243,7 @@ export default function MenuPage() {
                       key={item.id}
                       onClick={() => {
                         addItem({ id: item.id, name: item.name, price: parseInt(item.price.replace("₹", "")), quantity: 1, image: "", category: "For Chocolate Lovers" });
+                        toggleDrawer();
                       }}
                       className={`flex justify-between items-center group/item cursor-pointer ${i > 0 ? "border-t border-white/10 pt-4" : ""}`}
                     >
@@ -283,6 +289,7 @@ export default function MenuPage() {
                     <button
                       onClick={() => {
                         addItem({ id: item.id, name: item.name, price: 199, quantity: 1, image: "", category: "Mini Bites" });
+                        toggleDrawer();
                       }}
                       className="text-[10px] font-bold uppercase tracking-widest text-[#a8275b] border border-[#a8275b]/20 px-4 py-1 rounded-full group-hover:bg-[#a8275b] group-hover:text-white transition-colors"
                     >

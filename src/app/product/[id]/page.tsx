@@ -159,7 +159,10 @@ export default function ProductPage() {
             {/* Add to Box CTA */}
             <div className="pt-4">
               <button
-                onClick={handleAdd}
+                onClick={() => {
+                  handleAdd();
+                  toggleDrawer();
+                }}
                 className="w-full md:w-auto px-12 py-5 bg-[#a8275b] text-white rounded-full font-bold text-lg shadow-[0px_20px_40px_rgba(74,44,49,0.08)] hover:bg-[#98184f] transition-all flex items-center justify-center gap-2 active:scale-95"
               >
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>add_circle</span>
@@ -241,7 +244,10 @@ export default function ProductPage() {
             <span className="text-lg font-black text-[#a8275b]">₹{product.price}</span>
           </div>
           <button
-            onClick={handleAdd}
+            onClick={() => {
+              handleAdd();
+              toggleDrawer();
+            }}
             className="flex-1 px-6 py-3 bg-[#a8275b] text-white rounded-full font-bold shadow-[0px_20px_40px_rgba(74,44,49,0.08)] active:scale-95"
           >
             Add to Box

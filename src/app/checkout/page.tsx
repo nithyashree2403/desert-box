@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const BAKER_WHATSAPP = "+918147491854";
+const BAKER_WHATSAPP = "+918870540499"; // Replace with the baker's actual WhatsApp number
 
 export default function CheckoutPage() {
   const { items, sweetNote, clearCart, customer, isSignedIn, addOrder } = useCartStore();

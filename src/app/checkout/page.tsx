@@ -184,8 +184,8 @@ export default function CheckoutPage() {
                       <p className="text-[#605a5c] text-sm italic text-center py-6">No items in cart.</p>
                     ) : (
                       items.map((item) => (
-                        <div key={item.id} className="flex justify-between items-center p-4 bg-[#f9eef0] rounded-2xl">
-                          <div className="flex items-center gap-4">
+                        <div key={item.id} className="flex justify-between items-start p-4 bg-[#f9eef0] rounded-2xl">
+                          <div className="flex items-start gap-4 flex-1">
                             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-sm bg-[#f0e6e8] shrink-0">
                               {item.image ? (
                                 // eslint-disable-next-line @next/next/no-img-element
@@ -194,12 +194,22 @@ export default function CheckoutPage() {
                                 <div className="w-full h-full flex items-center justify-center text-lg">🎂</div>
                               )}
                             </div>
-                            <div>
+                            <div className="flex-1">
                               <p className="font-bold text-[#322d2f]">{item.name}</p>
                               <p className="text-sm text-[#605a5c]">Qty: {item.quantity}</p>
+                              {item.cakeSize && (
+                                <p className="text-xs text-[#755257] mt-1">
+                                  <span className="font-semibold">Size:</span> {item.cakeSize}
+                                </p>
+                              )}
+                              {item.addons && item.addons.length > 0 && (
+                                <p className="text-xs text-[#755257] mt-1">
+                                  <span className="font-semibold">Toppings:</span> {item.addons.join(", ")}
+                                </p>
+                              )}
                             </div>
                           </div>
-                          <span className="font-bold text-[#a8275b]">₹{item.price * item.quantity}</span>
+                          <span className="font-bold text-[#a8275b] shrink-0">₹{item.price * item.quantity}</span>
                         </div>
                       ))
                     )}

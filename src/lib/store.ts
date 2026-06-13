@@ -8,6 +8,8 @@ export interface CartItem {
   quantity: number;
   image: string;
   category: string;
+  cakeSize?: string; // e.g., "500g", "1kg", "2kg"
+  addons?: string[]; // e.g., ["waffers", "chocochips", "sprinkles"]
 }
 
 interface CustomerInfo {

@@ -1,8 +1,10 @@
 "use client";
 
 import { useCartStore } from "@/lib/store";
+import { ProductCustomizationModal } from "@/components/product-customization-modal";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 
 // ─── product data ─────────────────────────────────────────────────────────────
 
@@ -91,12 +93,15 @@ export default function ProductPage() {
   const id = Array.isArray(params.id) ? params.id[0] : (params.id ?? "prod-01");
   const product = PRODUCTS[id] ?? PRODUCTS["prod-01"];
 
-  const addItem = useCartStore((s) => s.addItem);
-  const toggleDrawer = useCartStore((s) => s.toggleDrawer);
+  const items = useCartStore((s) => s.items);
   const cartCount = useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
+  const [showCustomizationModal, setShowCustomizationModal] = useState(false);
+
+  const productInCart = items.find((item) => item.id === product.id);
+  const productQuantity = productInCart?.quantity ?? 0;
 
   const handleAdd = () => {
-    addItem({ id: product.id, name: product.name, price: product.price, quantity: 1, image: product.heroImage, category: product.category });
+    setShowCustomizationModal(true);
   };
 
   return (
@@ -158,16 +163,28 @@ export default function ProductPage() {
 
             {/* Add to Box CTA */}
             <div className="pt-4">
-              <button
-                onClick={() => {
-                  handleAdd();
-                  toggleDrawer();
-                }}
-                className="w-full md:w-auto px-12 py-5 bg-[#a8275b] text-white rounded-full font-bold text-lg shadow-[0px_20px_40px_rgba(74,44,49,0.08)] hover:bg-[#98184f] transition-all flex items-center justify-center gap-2 active:scale-95"
-              >
-                <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>add_circle</span>
-                Add to Box
-              </button>
+              {productQuantity > 0 ? (
+                <button
+                  onClick={handleAdd}
+                  className="w-full md:w-auto px-12 py-5 bg-[#ff70a0] text-white rounded-full font-bold text-lg shadow-[0px_20px_40px_rgba(168,39,91,0.2)] hover:bg-[#e85a8a] transition-all flex items-center justify-center gap-2 active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    check_circle
+                  </span>
+                  <span className="text-2xl font-black">{productQuantity}</span>
+                  In Box
+                </button>
+              ) : (
+                <button
+                  onClick={handleAdd}
+                  className="w-full md:w-auto px-12 py-5 bg-[#a8275b] text-white rounded-full font-bold text-lg shadow-[0px_20px_40px_rgba(74,44,49,0.08)] hover:bg-[#98184f] transition-all flex items-center justify-center gap-2 active:scale-95"
+                >
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    add_circle
+                  </span>
+                  Add to Box
+                </button>
+              )}
             </div>
 
             {/* Info Panels */}
@@ -243,17 +260,39 @@ export default function ProductPage() {
             <span className="text-xs text-[#605a5c]">Price</span>
             <span className="text-lg font-black text-[#a8275b]">₹{product.price}</span>
           </div>
-          <button
-            onClick={() => {
-              handleAdd();
-              toggleDrawer();
-            }}
-            className="flex-1 px-6 py-3 bg-[#a8275b] text-white rounded-full font-bold shadow-[0px_20px_40px_rgba(74,44,49,0.08)] active:scale-95"
-          >
-            Add to Box
-          </button>
+          {productQuantity > 0 ? (
+            <button
+              onClick={handleAdd}
+              className="flex-1 px-6 py-3 bg-[#ff70a0] text-white rounded-full font-bold shadow-[0px_20px_40px_rgba(168,39,91,0.2)] active:scale-95 flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>
+                check_circle
+              </span>
+              <span className="text-xl font-black">{productQuantity}</span>
+            </button>
+          ) : (
+            <button
+              onClick={handleAdd}
+              className="flex-1 px-6 py-3 bg-[#a8275b] text-white rounded-full font-bold shadow-[0px_20px_40px_rgba(74,44,49,0.08)] active:scale-95"
+            >
+              Add to Box
+            </button>
+          )}
         </div>
       </div>
+
+      {/* ── CUSTOMIZATION MODAL ──────────────────────────────────────────── */}
+      <ProductCustomizationModal
+        isOpen={showCustomizationModal}
+        onClose={() => setShowCustomizationModal(false)}
+        product={{
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.heroImage,
+          category: product.category,
+        }}
+      />
 
       {/* ── SPRINKLE DECORATION ──────────────────────────────────────────── */}
       <div className="fixed -bottom-10 -right-10 opacity-20 pointer-events-none select-none">

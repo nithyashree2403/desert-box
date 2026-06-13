@@ -1,8 +1,10 @@
 "use client";
 
 import { useCartStore } from "@/lib/store";
+import { ProductCustomizationModal } from "@/components/product-customization-modal";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 // ─── data ────────────────────────────────────────────────────────────────────
 
@@ -54,9 +56,26 @@ const miniBites = [
 // ─── component ───────────────────────────────────────────────────────────────
 
 export default function MenuPage() {
-  const addItem = useCartStore((s) => s.addItem);
-  const toggleDrawer = useCartStore((s) => s.toggleDrawer);
+  const items = useCartStore((s) => s.items);
   const cartCount = useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
+
+  const [showCustomizationModal, setShowCustomizationModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<{
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+  } | null>(null);
+
+  const handleCustomizeProduct = (product: typeof selectedProduct) => {
+    setSelectedProduct(product);
+    setShowCustomizationModal(true);
+  };
+
+  const getProductQuantity = (productId: string) => {
+    return items.find((item) => item.id === productId)?.quantity ?? 0;
+  };
 
   return (
     <div className="bg-[#fef4f6] text-[#322d2f] min-h-screen">
@@ -134,14 +153,26 @@ export default function MenuPage() {
                   <span className="block text-[#98184f] font-bold text-sm mb-2">{item.startingAt}</span>
                   <p className="text-sm text-[#605a5c] mb-4 line-clamp-2 flex-1">{item.description}</p>
                   <button
-                    onClick={() => {
-                      addItem({ id: item.id, name: item.name, price: 400, quantity: 1, image: item.image, category: "Classic & Premium" });
-                      toggleDrawer();
-                    }}
-                    className="w-full py-3 rounded-full bg-[#a8275b] text-white font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 hover:bg-[#98184f]"
+                    onClick={() => handleCustomizeProduct({ id: item.id, name: item.name, price: 400, image: item.image, category: "Classic & Premium" })}
+                    className={`w-full py-3 rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 ${
+                      getProductQuantity(item.id) > 0
+                        ? "bg-[#ff70a0] text-white hover:bg-[#e85a8a]"
+                        : "bg-[#a8275b] text-white hover:bg-[#98184f]"
+                    }`}
                   >
-                    <span className="material-symbols-outlined text-lg">add_circle</span>
-                    Add to Box
+                    {getProductQuantity(item.id) > 0 ? (
+                      <>
+                        <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          check_circle
+                        </span>
+                        <span className="text-lg font-black">{getProductQuantity(item.id)}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="material-symbols-outlined text-lg">add_circle</span>
+                        Add to Box
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
@@ -197,13 +228,23 @@ export default function MenuPage() {
                     </p>
                   </div>
                   <button
-                    onClick={() => {
-                      addItem({ id: "prod-01", name: "Death By Chocolate", price: 750, quantity: 1, image: "", category: "For Chocolate Lovers" });
-                      toggleDrawer();
-                    }}
-                    className="bg-white text-[#a8275b] p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95"
+                    onClick={() => handleCustomizeProduct({ id: "prod-01", name: "Death By Chocolate", price: 750, image: "", category: "For Chocolate Lovers" })}
+                    className={`p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 ${
+                      getProductQuantity("prod-01") > 0
+                        ? "bg-[#ff70a0] text-white"
+                        : "bg-white text-[#a8275b]"
+                    }`}
                   >
-                    <span className="material-symbols-outlined">add_shopping_cart</span>
+                    {getProductQuantity("prod-01") > 0 ? (
+                      <div className="flex items-center justify-center gap-1">
+                        <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                          check_circle
+                        </span>
+                        <span className="text-xl font-black">{getProductQuantity("prod-01")}</span>
+                      </div>
+                    ) : (
+                      <span className="material-symbols-outlined">add_shopping_cart</span>
+                    )}
                   </button>
                 </div>
               </div>
@@ -222,13 +263,25 @@ export default function MenuPage() {
                 <span className="block text-[#755257] font-bold text-sm mb-1">₹600</span>
                 <p className="text-xs text-[#605a5c] mb-4">Silky ganache with deep cocoa notes.</p>
                 <button
-                  onClick={() => {
-                    addItem({ id: "prod-ct", name: "Choco Truffle", price: 600, quantity: 1, image: "", category: "For Chocolate Lovers" });
-                    toggleDrawer();
-                  }}
-                  className="text-[#98184f] font-bold text-sm flex items-center gap-1 group-hover:gap-2 transition-all"
+                  onClick={() => handleCustomizeProduct({ id: "prod-ct", name: "Choco Truffle", price: 600, image: "", category: "For Chocolate Lovers" })}
+                  className={`font-bold text-sm flex items-center gap-1 transition-all ${
+                    getProductQuantity("prod-ct") > 0
+                      ? "text-[#ff70a0] group-hover:gap-2"
+                      : "text-[#98184f] group-hover:gap-2"
+                  }`}
                 >
-                  Add to Box <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  {getProductQuantity("prod-ct") > 0 ? (
+                    <>
+                      <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        check_circle
+                      </span>
+                      <span className="text-lg font-black">{getProductQuantity("prod-ct")}</span>
+                    </>
+                  ) : (
+                    <>
+                      Add to Box <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -241,14 +294,20 @@ export default function MenuPage() {
                   {crunchyClassics.map((item, i) => (
                     <li
                       key={item.id}
-                      onClick={() => {
-                        addItem({ id: item.id, name: item.name, price: parseInt(item.price.replace("₹", "")), quantity: 1, image: "", category: "For Chocolate Lovers" });
-                        toggleDrawer();
-                      }}
+                      onClick={() => handleCustomizeProduct({ id: item.id, name: item.name, price: parseInt(item.price.replace("₹", "")), image: "", category: "For Chocolate Lovers" })}
                       className={`flex justify-between items-center group/item cursor-pointer ${i > 0 ? "border-t border-white/10 pt-4" : ""}`}
                     >
                       <span>{item.name} - {item.price}</span>
-                      <span className="material-symbols-outlined opacity-0 group-hover/item:opacity-100 transition-opacity">add_circle</span>
+                      {getProductQuantity(item.id) > 0 ? (
+                        <div className="flex items-center gap-1">
+                          <span className="material-symbols-outlined opacity-100 transition-opacity" style={{ fontVariationSettings: "'FILL' 1" }}>
+                            check_circle
+                          </span>
+                          <span className="text-lg font-black">{getProductQuantity(item.id)}</span>
+                        </div>
+                      ) : (
+                        <span className="material-symbols-outlined opacity-0 group-hover/item:opacity-100 transition-opacity">add_circle</span>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -287,13 +346,20 @@ export default function MenuPage() {
                     </div>
                     <h4 className="font-bold text-sm mb-3">{item.name}</h4>
                     <button
-                      onClick={() => {
-                        addItem({ id: item.id, name: item.name, price: 199, quantity: 1, image: "", category: "Mini Bites" });
-                        toggleDrawer();
-                      }}
-                      className="text-[10px] font-bold uppercase tracking-widest text-[#a8275b] border border-[#a8275b]/20 px-4 py-1 rounded-full group-hover:bg-[#a8275b] group-hover:text-white transition-colors"
+                      onClick={() => handleCustomizeProduct({ id: item.id, name: item.name, price: 199, image: "", category: "Mini Bites" })}
+                      className={`text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full transition-colors ${
+                        getProductQuantity(item.id) > 0
+                          ? "bg-[#ff70a0] text-white"
+                          : "text-[#a8275b] border border-[#a8275b]/20 group-hover:bg-[#a8275b] group-hover:text-white"
+                      }`}
                     >
-                      <span className="mr-1">₹199</span>Add
+                      {getProductQuantity(item.id) > 0 ? (
+                        <span className="inline-flex items-center gap-1">
+                          ✓ <span className="text-lg font-black">{getProductQuantity(item.id)}</span>
+                        </span>
+                      ) : (
+                        <span><span className="mr-1">₹199</span>Add</span>
+                      )}
                     </button>
                   </div>
                 ))}
@@ -324,6 +390,15 @@ export default function MenuPage() {
         </div>
         <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#a8275b] via-[#ff70a0] to-[#f9cc61]" />
       </footer>
+
+      {/* ── PRODUCT CUSTOMIZATION MODAL ───────────────────────────────────── */}
+      {selectedProduct && (
+        <ProductCustomizationModal
+          isOpen={showCustomizationModal}
+          onClose={() => setShowCustomizationModal(false)}
+          product={selectedProduct}
+        />
+      )}
 
       {/* ── MOBILE BOTTOM NAV ───────────────────────────────────────────────── */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-white/60 backdrop-blur-xl px-4 pb-4 flex justify-around items-end shadow-[0px_-10px_30px_rgba(74,44,49,0.05)] rounded-t-[32px]">

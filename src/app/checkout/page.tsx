@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const BAKER_WHATSAPP = "+918870540499"; // Replace with the baker's actual WhatsApp number
+const BAKER_WHATSAPP = "+917530043999"; // Official contact number from menu card
 
 export default function CheckoutPage() {
   const { items, sweetNote, clearCart, customer, isSignedIn, addOrder } = useCartStore();
@@ -79,12 +79,12 @@ export default function CheckoutPage() {
       `${cakeName ? `• Cake Name/Text: ${cakeName}\n` : ''}` +
       `• Theme: ${cakeTheme.charAt(0).toUpperCase() + cakeTheme.slice(1)}\n` +
       `${referencePhoto ? `• Reference Photo: Uploaded\n` : ''}` +
-      `\n💬 The baker will contact you on WhatsApp shortly to:\n` +
+      `\n💬 Our lead woman chef & baker will contact you on WhatsApp shortly to:\n` +
       `• Confirm payment details\n` +
       `• Finalize cake customization\n` +
       `• Discuss delivery time\n\n` +
-      `Please check your WhatsApp for messages from the baker!\n\n` +
-      `Made with ❤️ by The Dessert Box`;
+      `Please check your WhatsApp for messages from our woman chef!\n\n` +
+      `Handcrafted with ❤️ by Woman Chef & Baker at The Dessert Box`;
 
     window.open(`https://wa.me/${BAKER_WHATSAPP.replace('+', '')}?text=${encodeURIComponent(bakerMessage)}`, '_blank');
     window.open(`https://wa.me/${customer.whatsapp.replace('+', '')}?text=${encodeURIComponent(customerMessage)}`, '_blank');
@@ -369,8 +369,8 @@ export default function CheckoutPage() {
                         <span className="material-symbols-outlined text-[#a8275b]">2</span>
                       </div>
                       <div>
-                        <p className="font-bold text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>Chat with Baker on WhatsApp</p>
-                        <p className="text-sm text-[#605a5c]">A WhatsApp chat will open with the baker to discuss payment & cake customization</p>
+                        <p className="font-bold text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>Chat with Woman Chef on WhatsApp</p>
+                        <p className="text-sm text-[#605a5c]">A WhatsApp chat will open with our lead woman chef to discuss payment & cake customization</p>
                       </div>
                     </div>
 
@@ -380,7 +380,7 @@ export default function CheckoutPage() {
                       </div>
                       <div>
                         <p className="font-bold text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>Confirm & Pay</p>
-                        <p className="text-sm text-[#605a5c]">The baker will share payment details and you can confirm your cake customization</p>
+                        <p className="text-sm text-[#605a5c]">Our woman chef will share payment details and finalize your cake customization</p>
                       </div>
                     </div>
                   </div>

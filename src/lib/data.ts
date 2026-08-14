@@ -1,48 +1,307 @@
-export const PRODUCTS = [
+export interface ProductPriceTier {
+  bento: number;
+  halfKg: number;
+  oneKg: number;
+}
+
+export interface ProductItem {
+  id: string;
+  name: string;
+  category: "Classic & Premium" | "For Chocolate Lovers" | "Mini Bites";
+  description: string;
+  startingPrice: number;
+  prices?: ProductPriceTier;
+  fixedPrice?: number;
+  image: string;
+  badge?: string;
+  ingredients?: string;
+  allergens?: string;
+  isBestSeller?: boolean;
+}
+
+export const PRODUCTS: ProductItem[] = [
+  // ── CLASSIC & PREMIUM ──────────────────────────────────────────────────────
   {
-    id: "prod-01",
-    name: "Death By Chocolate",
-    description: "Seven layers of dark, milk, and white chocolate textures for the ultimate cocoa experience.",
-    price: 750,
-    category: "For Chocolate Lovers",
-    ingredients: "Couverture dark chocolate (70%), Swiss milk chocolate, white chocolate velvet ganache, organic cocoa powder, free-range eggs, Madagascar vanilla.",
-    allergens: "Dairy, Eggs, Gluten, Nuts",
-    isBestSeller: true
-  },
-  {
-    id: "prod-02",
-    name: "Kitkat Cake",
-    description: "Layers of chocolate sponge with crunchy KitKat pieces and smooth chocolate ganache.",
-    price: 650,
+    id: "prod-cp-vanilla",
+    name: "Vanilla",
     category: "Classic & Premium",
-    ingredients: "Chocolate sponge, KitKat pieces, chocolate ganache, whipped cream, butter.",
-    allergens: "Dairy, Eggs, Gluten, Nuts",
-    isBestSeller: false
-  },
-  {
-    id: "prod-03",
-    name: "Black Forest Cake",
-    description: "Rich dark chocolate sponge layered with fresh cherries, whipped cream, and dark chocolate shavings.",
-    price: 450,
-    category: "Classic & Premium",
-    ingredients: "Dark chocolate (70%), Fresh cherries, Whipped cream, Cocoa powder, Free-range eggs, Madagascar vanilla.",
-    allergens: "Dairy, Eggs, Gluten, Nuts",
-    isBestSeller: false
-  },
-  {
-    id: "prod-04",
-    name: "Mini Brownie",
-    description: "Perfect little joy-filled moment. Double fudge.",
-    price: 199,
-    category: "Mini Bites",
-    ingredients: "Cocoa, flour, butter.",
+    description: "Light, fluffy golden sponge infusing pure aromatic vanilla extract and sweet vanilla cream.",
+    startingPrice: 400,
+    prices: { bento: 400, halfKg: 600, oneKg: 1100 },
+    image: "/img/cake_vanilla.png",
+    ingredients: "Pure vanilla extract, organic flour, fresh cream, butter, free-range eggs, sugar.",
     allergens: "Dairy, Eggs, Gluten",
-    isBestSeller: false
-  }
+  },
+  {
+    id: "prod-cp-butterscotch",
+    name: "Butterscotch",
+    category: "Classic & Premium",
+    description: "Crunchy caramelized butterscotch nuggets layered with rich golden praline cream.",
+    startingPrice: 450,
+    prices: { bento: 450, halfKg: 700, oneKg: 1300 },
+    image: "/img/Gemini_Generated_Image_o7jshso7jshso7js.png",
+    ingredients: "Butterscotch pralines, brown sugar caramel, vanilla sponge, fresh whipping cream.",
+    allergens: "Dairy, Eggs, Gluten, Nuts",
+  },
+  {
+    id: "prod-cp-strawberry",
+    name: "Strawberry",
+    category: "Classic & Premium",
+    description: "Fresh, sweet berry compote layered in delicate vanilla sponge with pink strawberry frosting.",
+    startingPrice: 450,
+    prices: { bento: 450, halfKg: 700, oneKg: 1300 },
+    image: "/img/cake_strawberry.png",
+    ingredients: "Fresh strawberries, strawberry reduction, vanilla sponge, light whipping cream.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cp-mango",
+    name: "Mango",
+    category: "Classic & Premium",
+    description: "Luscious tropical mango whip layered with sweet Alphonso pulp and soft sponge.",
+    startingPrice: 450,
+    prices: { bento: 450, halfKg: 700, oneKg: 1300 },
+    image: "/img/Gemini_Generated_Image_ojz849ojz849ojz8.png",
+    ingredients: "Alphonso mango pulp, fresh cream, sponge cake, natural fruit glaze.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cp-blackcurrant",
+    name: "Blackcurrant",
+    category: "Classic & Premium",
+    description: "Tangy blackcurrant reduction blended with silky cream and moist vanilla sponge.",
+    startingPrice: 500,
+    prices: { bento: 500, halfKg: 750, oneKg: 1400 },
+    image: "/img/cake_strawberry.png",
+    ingredients: "Blackcurrant berries, berry glaze, vanilla sponge, fresh cream.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cp-coffee",
+    name: "Coffee",
+    category: "Classic & Premium",
+    description: "Aromatic espresso-infused sponge with velvety coffee mascarpone frosting.",
+    startingPrice: 500,
+    prices: { bento: 500, halfKg: 700, oneKg: 1300 },
+    image: "/img/Gemini_Generated_Image_o7jshso7jshso7js.png",
+    ingredients: "Espresso coffee decoction, mascarpone cream, dark cocoa, sponge cake.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cp-blueberry",
+    name: "Blueberry",
+    category: "Classic & Premium",
+    description: "Wild blueberry compote swirled into creamy vanilla layers for a sweet berry delight.",
+    startingPrice: 600,
+    prices: { bento: 600, halfKg: 800, oneKg: 1500 },
+    image: "/img/cake_strawberry.png",
+    ingredients: "Wild blueberries, fruit compote, whipped cream, sponge cake.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cp-biscoff",
+    name: "Lotus Biscoff",
+    category: "Classic & Premium",
+    description: "Caramelized Biscoff cookie spread layered with crunchy Biscoff biscuit crumbs and cream.",
+    startingPrice: 600,
+    prices: { bento: 600, halfKg: 850, oneKg: 1600 },
+    image: "/img/Gemini_Generated_Image_o7jshso7jshso7js.png",
+    badge: "Trending",
+    ingredients: "Lotus Biscoff spread, crushed Biscoff cookies, vanilla cream, butter.",
+    allergens: "Dairy, Eggs, Gluten, Soy",
+  },
+  {
+    id: "prod-cp-redvelvet",
+    name: "Red Velvet",
+    category: "Classic & Premium",
+    description: "Iconic cocoa-infused red sponge with our signature tangy cream cheese frosting.",
+    startingPrice: 600,
+    prices: { bento: 600, halfKg: 850, oneKg: 1600 },
+    image: "/img/cake_redvelvet.png",
+    badge: "Bestseller",
+    ingredients: "Cocoa powder, cream cheese, buttermilk, red velvet sponge, vanilla.",
+    allergens: "Dairy, Eggs, Gluten",
+    isBestSeller: true,
+  },
+  {
+    id: "prod-cp-pistachio",
+    name: "Pistachio",
+    category: "Classic & Premium",
+    description: "Rich nutty pistachio cream layered with crushed roasted pistachios and delicate sponge.",
+    startingPrice: 700,
+    prices: { bento: 700, halfKg: 850, oneKg: 1700 },
+    image: "/img/Gemini_Generated_Image_ojz849ojz849ojz8.png",
+    ingredients: "Roasted pistachios, pistachio praline paste, fresh whipping cream, sponge.",
+    allergens: "Dairy, Eggs, Gluten, Tree Nuts",
+  },
+  {
+    id: "prod-cp-rasmalai",
+    name: "Rasmalai",
+    category: "Classic & Premium",
+    description: "Fusion delight infused with saffron milk, cardamom, chopped nuts, and soft Rasmalai pieces.",
+    startingPrice: 800,
+    prices: { bento: 800, halfKg: 900, oneKg: 1800 },
+    image: "/img/Gemini_Generated_Image_ojz849ojz849ojz8.png",
+    badge: "Chef Special",
+    ingredients: "Rasmalai cottage cheese balls, saffron milk (kesar), cardamom, almonds, pistachios.",
+    allergens: "Dairy, Eggs, Gluten, Tree Nuts",
+    isBestSeller: true,
+  },
+
+  // ── FOR CHOCOLATE LOVERS ───────────────────────────────────────────────────
+  {
+    id: "prod-cl-chocolate",
+    name: "Chocolate",
+    category: "For Chocolate Lovers",
+    description: "Classic moist dark chocolate sponge frosted with smooth cocoa cream.",
+    startingPrice: 450,
+    prices: { bento: 450, halfKg: 700, oneKg: 1300 },
+    image: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
+    ingredients: "Cocoa powder, dark chocolate glaze, fresh cream, chocolate sponge.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cl-brownie",
+    name: "Brownie",
+    category: "For Chocolate Lovers",
+    description: "Fudgy chocolate brownie cake layers paired with dense chocolate ganache.",
+    startingPrice: 450,
+    prices: { bento: 450, halfKg: 800, oneKg: 1500 },
+    image: "/img/cake_death_chocolate.png",
+    ingredients: "Fudge brownie layers, dark chocolate ganache, butter, cocoa powder.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cl-blackforest",
+    name: "Black Forest",
+    category: "For Chocolate Lovers",
+    description: "Rich dark chocolate sponge layered with fresh cherries, whipped cream, and dark chocolate flakes.",
+    startingPrice: 500,
+    prices: { bento: 500, halfKg: 800, oneKg: 1500 },
+    image: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
+    ingredients: "Dark chocolate (70%), cherries, whipped cream, cocoa powder, free-range eggs.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-cl-oreo",
+    name: "Oreo",
+    category: "For Chocolate Lovers",
+    description: "Crunchy crushed Oreo cookies folded into silky cookies & cream frosting and dark chocolate cake.",
+    startingPrice: 550,
+    prices: { bento: 550, halfKg: 850, oneKg: 1600 },
+    image: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
+    ingredients: "Oreo cookies, cookies & cream frosting, chocolate sponge, cocoa.",
+    allergens: "Dairy, Eggs, Gluten, Soy",
+  },
+  {
+    id: "prod-cl-kitkat",
+    name: "Kitkat",
+    category: "For Chocolate Lovers",
+    description: "Crunchy KitKat wafer bars embedded in smooth chocolate cake with creamy ganache.",
+    startingPrice: 600,
+    prices: { bento: 600, halfKg: 900, oneKg: 1800 },
+    image: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
+    ingredients: "KitKat wafers, chocolate ganache, chocolate sponge, butter.",
+    allergens: "Dairy, Eggs, Gluten, Soy",
+  },
+  {
+    id: "prod-cl-chocotruffle",
+    name: "Choco Truffle",
+    category: "For Chocolate Lovers",
+    description: "Silky dark Belgian chocolate ganache glaze over melt-in-your-mouth cocoa sponge cake.",
+    startingPrice: 600,
+    prices: { bento: 600, halfKg: 900, oneKg: 1800 },
+    image: "/img/cake_choco_truffle.png",
+    badge: "Bestseller",
+    ingredients: "Belgian dark chocolate, chocolate ganache, cocoa powder, heavy cream.",
+    allergens: "Dairy, Eggs, Gluten",
+    isBestSeller: true,
+  },
+  {
+    id: "prod-cl-dbc",
+    name: "Death By Chocolate",
+    category: "For Chocolate Lovers",
+    description: "Seven decadent layers of dark, milk, and white chocolate ganache and fudge for true chocolate lovers.",
+    startingPrice: 750,
+    prices: { bento: 750, halfKg: 1000, oneKg: 2000 },
+    image: "/img/cake_death_chocolate.png",
+    badge: "Masterpiece",
+    ingredients: "70% Couverture dark chocolate, Swiss milk chocolate, white chocolate velvet ganache, cocoa.",
+    allergens: "Dairy, Eggs, Gluten, Nuts",
+    isBestSeller: true,
+  },
+  {
+    id: "prod-cl-ferrero",
+    name: "Ferrero Rocher",
+    category: "For Chocolate Lovers",
+    description: "Premium Hazelnut Nutella cream layered with roasted hazelnuts and whole Ferrero Rocher chocolates.",
+    startingPrice: 900,
+    prices: { bento: 900, halfKg: 1200, oneKg: 2400 },
+    image: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
+    badge: "Luxury",
+    ingredients: "Ferrero Rocher pralines, Nutella hazelnut cream, roasted hazelnuts, chocolate sponge.",
+    allergens: "Dairy, Eggs, Gluten, Tree Nuts, Soy",
+    isBestSeller: true,
+  },
+
+  // ── MINI BITES ─────────────────────────────────────────────────────────────
+  {
+    id: "prod-mb-brownie",
+    name: "Mini Brownie",
+    category: "Mini Bites",
+    description: "Rich, dense double-fudge chocolate brownie bite baked with real butter.",
+    startingPrice: 199,
+    fixedPrice: 199,
+    image: "/img/cake_death_chocolate.png",
+    ingredients: "Dark chocolate, cocoa, flour, butter, sugar, free-range eggs.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
+  {
+    id: "prod-mb-chocolates",
+    name: "Chocolates",
+    category: "Mini Bites",
+    description: "Handcrafted artisanal chocolate truffles made with pure couverture cocoa.",
+    startingPrice: 199,
+    fixedPrice: 199,
+    image: "/img/cake_choco_truffle.png",
+    ingredients: "Pure dark chocolate, milk chocolate, cocoa butter, cream.",
+    allergens: "Dairy, Soy",
+  },
+  {
+    id: "prod-mb-cookies",
+    name: "Cookies",
+    category: "Mini Bites",
+    description: "Freshly baked butter cookies packed with rich chocolate chunks.",
+    startingPrice: 199,
+    fixedPrice: 199,
+    image: "/img/Gemini_Generated_Image_o7jshso7jshso7js.png",
+    ingredients: "Real butter, flour, chocolate chunks, brown sugar, vanilla.",
+    allergens: "Dairy, Gluten",
+  },
+  {
+    id: "prod-mb-cupcakes",
+    name: "Cup Cake (pack of 4)",
+    category: "Mini Bites",
+    description: "Box of 4 soft, fluffy cupcakes decorated with hand-piped frosting.",
+    startingPrice: 199,
+    fixedPrice: 199,
+    image: "/img/woman_baker_piping.png",
+    ingredients: "Flour, butter, sugar, vanilla frosting, sprinkles, free-range eggs.",
+    allergens: "Dairy, Eggs, Gluten",
+  },
 ];
 
 export const CATEGORIES = [
   { id: "cat-1", name: "Classic & Premium", subtitle: "Our signature artisanal base recipes" },
   { id: "cat-2", name: "For Chocolate Lovers", subtitle: "Rich, decadent cocoa creations" },
-  { id: "cat-3", name: "Mini Bites", subtitle: "Perfect little joy-filled moments. All items at a flat rate of Rs 199." }
+  { id: "cat-3", name: "Mini Bites", subtitle: "Perfect little joy-filled moments. All items at Rs 199." }
 ];
+
+export const MENU_NOTICES = {
+  preOrder: "Pre order before two days !",
+  extraCharges: "Extra charges applicable for customization & delivery",
+  tagline: "FALL IN LOVE WITH CREAMS & CAKES",
+  instagram: "the_dessert__box_",
+  phone: "7530043999",
+  address: "no 25,Srinahgar,6th cross Bharathi Nagar, Ganapathy,Coimbatore",
+};

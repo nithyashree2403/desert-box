@@ -18,17 +18,21 @@ export default function HomePage() {
         <header className="relative mt-8 mb-24 overflow-hidden rounded-[2rem] h-[600px] flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            alt="The Baker"
+            alt="The Woman Chef & Baker"
             className="absolute inset-0 w-full h-full object-cover"
-            src="/img/baker_hero.png"
+            src="/img/woman_baker_hero.png"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#4c0023]/60 to-transparent" />
-          <div className="relative z-10 px-12 max-w-2xl">
-            <h1 className="text-6xl md:text-7xl text-white leading-tight mb-6" style={{ fontFamily: "var(--font-fredoka)" }}>
-              Baked at Home, Shipped to You
+          <div className="absolute inset-0 bg-gradient-to-r from-[#4c0023]/75 via-[#4c0023]/40 to-transparent" />
+          <div className="relative z-10 px-8 md:px-16 max-w-2xl">
+            <div className="inline-flex items-center gap-2 bg-[#ff70a0]/30 backdrop-blur-md border border-white/30 text-white px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-md" style={{ fontFamily: "var(--font-jakarta)" }}>
+              <span className="text-xl">👩‍🍳</span>
+              <span>100% Handled & Crafted by Woman Chef</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl text-white leading-tight mb-6" style={{ fontFamily: "var(--font-fredoka)" }}>
+              Baked by Woman Chef, Shipped to You
             </h1>
-            <p className="text-white/90 text-xl mb-10" style={{ fontFamily: "var(--font-vietnam)" }}>
-              Honest, real ingredients from our family kitchen straight to your doorstep.
+            <p className="text-white/90 text-lg md:text-xl mb-10" style={{ fontFamily: "var(--font-vietnam)" }}>
+              Honest, real ingredients from our lead woman chef & artisan baker straight to your doorstep.
             </p>
             <Link
               href="/menu"
@@ -45,21 +49,21 @@ export default function HomePage() {
 
           {/* Image collage */}
           <div className="md:col-span-5 relative">
-            <div className="relative z-10 rounded-[2rem] overflow-hidden rotate-[-2deg] shadow-xl">
+            <div className="relative z-10 rounded-[2rem] overflow-hidden rotate-[-2deg] shadow-2xl border-4 border-white/60">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                alt="Dough prep"
+                alt="Woman Chef decorating cake"
                 className="w-full aspect-[4/5] object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDzKole2C5I_FM-Q2GjRbhOqujvRpZULMetIdORiIRedSbx-Vi1AFwx7ns7K0y_R4fnDQP-gmVc3mRcsBQ4BOwT55nycOfBYt5cEXOUBatDlzQemu8hfF7JXxGjjRXJO4_rzt4ZdQxaATZhEsOSvpCrmTF-fdqJ20NWpQDja7fraWybSvrn5AkN18xW3RCq8fSmT4yjl0AGC9em6P1ZBA2V93fgTOVJd77njPA9eejwBJxKoibgR7jwmdxAxr4oJl1tBfbgXUtCUI"
+                src="/img/woman_baker_story.png"
               />
             </div>
             {/* Overlapping small image */}
-            <div className="absolute -bottom-8 -right-8 w-64 h-64 z-0 rounded-[2rem] overflow-hidden rotate-[4deg] shadow-lg border-8 border-white">
+            <div className="absolute -bottom-8 -right-8 w-64 h-64 z-20 rounded-[2rem] overflow-hidden rotate-[4deg] shadow-2xl border-8 border-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                alt="Cookie decorating"
+                alt="Woman baker piping frosting"
                 className="w-full h-full object-cover"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaHGOsfpaQBGGnsB41pCMGjTbLSiudwRhAivs3tE84RXvnA8Mmrj0wCJYWRYkhRZharQdVgO9P4tuT7M0VrB0dB4RsG11OkU0B9xGq-gCf7A6vTJpZUP4sAnRc5nMNG6dXutqM_ck2lJwImf-Wo3l9kJbJuwUivBTasPhiDOeTQ9z-5zr0RZl3iaRwK4BWRrfpaHlzwgD8y7YD8gEbD5cStzqUttIUkUu6WFts78DhO49ELh0q5EmaA1ckUgZxSuND8i6SEB0Rdxw"
+                src="/img/woman_baker_piping.png"
               />
             </div>
             {/* Sprinkle decoration */}
@@ -71,34 +75,40 @@ export default function HomePage() {
             <div className="bg-white/60 backdrop-blur-md p-10 md:p-16 rounded-[3rem] shadow-[0px_20px_40px_rgba(168,39,91,0.03)] border border-white/40 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff70a0]/5 rounded-full -mr-16 -mt-16 blur-3xl" />
               
-              <span className="text-[#a8275b] font-bold uppercase tracking-widest text-xs mb-4 block" style={{ fontFamily: "var(--font-jakarta)" }}>
-                The Heart Behind the Box
-              </span>
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[#a8275b] font-bold uppercase tracking-widest text-xs block" style={{ fontFamily: "var(--font-jakarta)" }}>
+                  Handled by Woman Chef & Baker
+                </span>
+                <span className="bg-[#ff70a0]/20 text-[#a8275b] px-2.5 py-0.5 rounded-full text-xs font-bold">
+                  👩‍🍳 Woman-Led
+                </span>
+              </div>
+              
               <h2 className="text-5xl text-[#a8275b] leading-tight mb-8" style={{ fontFamily: "var(--font-fredoka)" }}>
-                Meet the Baker
+                Meet the Chef & Baker
               </h2>
               
               <div className="space-y-6 text-[#322d2f]/80 text-lg leading-[1.8]" style={{ fontFamily: "var(--font-jakarta)" }}>
                 <p className="font-medium text-[#322d2f]">
-                  The Dessert Box didn&apos;t start as a business. It just… happened.
+                  The Dessert Box is proudly woman-owned, run with culinary passion and care by our lead woman chef & baker.
                 </p>
                 <p>
-                  Most days, it was just me in the kitchen, baking something small for my kids—and of course, they would be right there, waiting to taste it before it even cooled down. What started as &ldquo;just for home&rdquo; slowly became something everyone around us began asking for.
+                  Most days, it was just me in the kitchen, creating small batches of gourmet pastries for my kids—and of course, they would be right there waiting to taste before it even cooled down. What started as &ldquo;just for home&rdquo; slowly became something everyone around us asked for.
                 </p>
                 <p className="italic text-[#a8275b]/70 border-l-2 border-[#ff70a0]/30 pl-6 my-8">
-                  It was always the same question—&ldquo;Can you make the same for us?&rdquo; And honestly, I never planned beyond that.
+                  It was always the same request—&ldquo;Can your woman baker craft the same for our family?&rdquo; And honestly, baking with love has been my lifelong calling ever since.
                 </p>
                 <p>
-                  For me, baking has always been about home. As a mom, I can&apos;t ignore what goes into the food I give my kids… so I don&apos;t use anything I wouldn&apos;t be comfortable serving them. No shortcuts, no unnecessary stuff—just simple ingredients, the kind you already trust.
+                  For me, baking has always been about home, maternal care, and master craftsmanship. As a woman chef and mom, I never compromise on what goes into our food. No shortcuts, no artificial chemicals—just honest, high-quality ingredients you can trust.
                 </p>
                 <p>
-                  Even today, nothing comes from a factory. Everything is made in my kitchen, the same way I&apos;ve always done it—with a little patience, a lot of care, and that familiar &ldquo;ghar ka&rdquo; feeling in every bite.
+                  Even today, nothing comes from an automated factory. Every cake, cookie, and brownie is personally handcrafted in our woman-led kitchen, bringing you that genuine &ldquo;ghar ka&rdquo; warmth in every bite.
                 </p>
               </div>
 
               <div className="mt-12 pt-8 border-t border-[#ff70a0]/10">
                 <p className="font-bold text-[#a8275b] text-xl italic" style={{ fontFamily: "var(--font-fredoka)" }}>
-                  &ldquo;There&apos;s no secret… just good ingredients, and a mom who really cares about what you&apos;re eating.&rdquo;
+                  &ldquo;There&apos;s no secret… just real ingredients, culinary expertise, and a woman chef who truly cares about what you&apos;re eating.&rdquo;
                 </p>
               </div>
             </div>
@@ -108,11 +118,14 @@ export default function HomePage() {
         {/* ── QUALITY & CRAFT ─────────────────────────────────────────────────── */}
         <section className="bg-[#f0e6e8] rounded-[2rem] p-12 md:p-20 mb-32 relative overflow-hidden">
           <div className="relative z-10 text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 bg-white/80 text-[#a8275b] px-4 py-1.5 rounded-full text-sm font-bold mb-4 shadow-sm">
+              <span>👩‍🍳 Chef-Standard Craftsmanship</span>
+            </div>
             <h2 className="text-5xl text-[#4c0023] mb-4" style={{ fontFamily: "var(--font-fredoka)" }}>
               Honest Ingredients
             </h2>
             <p className="text-[#605a5c] text-lg">
-              If it doesn&apos;t belong in a home kitchen, it doesn&apos;t go in our treats.
+              If it doesn&apos;t belong in our woman chef&apos;s home kitchen, it doesn&apos;t go in our treats.
             </p>
           </div>
 
@@ -123,21 +136,21 @@ export default function HomePage() {
                 bg: "bg-[#f9cc61]",
                 text: "text-[#5b4400]",
                 title: "No Preservatives",
-                desc: "We skip all the artificial shortcuts, stabilizers, and chemicals. Just real food.",
+                desc: "We skip all artificial shortcuts, stabilizers, and chemicals. Just real, wholesome food.",
               },
               {
-                icon: "bakery_dining",
+                icon: "woman",
                 bg: "bg-[#fdced4]",
                 text: "text-[#654449]",
-                title: "Real Butter",
-                desc: "We use the same real, rich butter you'd find in your own fridge. No cheap substitutes ever.",
+                title: "Woman Chef Touch",
+                desc: "Hand-piped and baked in small artisanal batches with maternal care and precision.",
               },
               {
                 icon: "nutrition",
                 bg: "bg-[#ff70a0]",
                 text: "text-[#4c0023]",
-                title: "Good Chocolate",
-                desc: "Generous chunks of couverture chocolate that melt perfectly when you warm your cookie.",
+                title: "Real Couverture Cocoa",
+                desc: "Generous chunks of pure chocolate that melt perfectly when you warm your cookie or cake.",
               },
             ].map((card) => (
               <div key={card.title} className="bg-white p-10 rounded-[2rem] text-center shadow-sm hover:shadow-md transition-shadow">
@@ -157,33 +170,36 @@ export default function HomePage() {
         {/* ── ATELIER PROCESS ─────────────────────────────────────────────────── */}
         <section className="mb-32">
           <div className="text-center mb-16">
+            <span className="text-[#a8275b] font-bold uppercase tracking-widest text-xs mb-2 block" style={{ fontFamily: "var(--font-jakarta)" }}>
+              The Woman Baker Workflow
+            </span>
             <h2 className="text-5xl text-[#a8275b]" style={{ fontFamily: "var(--font-fredoka)" }}>
-              From Our Oven to Yours
+              From Our Woman-Led Kitchen to Yours
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               {
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBQMCQsG0QcdavL7eS77rdWHJP_4RxgYi-XYirNE826o2zZ7pyzCfRtzm7ZlFY6zFph7EGr5M_36pW1ajOpCbhdf0eIV_ts5zh1hkcPYklSgNudUh3msnRTX3EIspwKpZUZE2gE5R7OLgbczmCfsRoHC5DZ-fA4EaaEK2HlFn7KhFRNC2RN8EiIvHnoknue51QBR9nYit0uqvBP_1ChTV-nVe3Fvdn6pq0zKMz4hbvoOBzC2j20-2mB8O_GKUn-T14_6pGTqHQeoe4",
-                alt: "Baking batches",
+                img: "/img/woman_baker_story.png",
+                alt: "Woman Chef testing recipes",
                 step: "1",
-                title: "Tested for the Kids",
-                desc: "Every recipe started as a snack for my own children. I still bake them exactly the same way—with simple, real ingredients and zero shortcuts.",
+                title: "Chef-Perfected Recipes",
+                desc: "Every recipe is developed and refined by our lead woman chef. We use uncompromised, natural ingredients with zero shortcuts.",
               },
               {
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDyeK1G4yPP1-i2KUzq8qTKNB8n7Us-cnnHDpr3xN2zh_5bT-hmZfCdgeRw9vNM0bSgoqI1YDjzxb_gL4fZm5IQCxQtd59mX06Rmtxj-9C5RfDTNs30vqoKznvRoihIR04hLERVe52kqPuDEscG-N1rvEpBj9Nd-zK0Q86A0G6tGnJkZZb46ItVK0AOJUxU8RZKzCYRxjcO_R-snLNHhPmbzW2E9vFZ7DzHAiPey20QdLhubApZRKOMyPFZihPIGTkVMupVenLpScc",
-                alt: "Packaging",
+                img: "/img/woman_baker_piping.png",
+                alt: "Woman Baker piping frosting",
                 step: "2",
-                title: "The 'Ghar Ka' Touch",
-                desc: "Factory assembly lines aren't for us. Each box is hand-packed with a little extra patience, so it feels like a warm hug when it reaches you.",
+                title: "Artisanal Hand-Piping",
+                desc: "No mechanical factory lines. Each cake and brownie box is personally decorated and packaged by our woman baker.",
               },
               {
-                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDf0HHRymxSCE5Bmdl7_t9oEFwqbrrNEB51JT36_iiqCO30BfYJ6AhLNWCjkcGOenCar5VwIt6Y2FFZFRJAymyr4q2DJ9rKjQmicAK7HSzNYOGGB7s0BfXQCDOjzw_iTAp8Zpmx6u8Vlo6Uc6PMbI4ypXCR5Ni67SEFzFc0oka1UH1TyOxlt6yGTP-chBkgHQoqD_jr0mgF8_IipRNwBDMSQOmAhHM4crG5OU59UQ_mXm4Vm3cE83FRxAtNHLjsf82kKUL7OCLc7FA",
-                alt: "Shipping",
+                img: "/img/woman_baker_hero.png",
+                alt: "Woman Baker presenting fresh dessert box",
                 step: "3",
-                title: "Sharing the Joy",
-                desc: "What started as a kitchen secret is now a gift for your family. We deliver that familiar homemade comfort straight from my table to yours.",
+                title: "Handed Over with Care",
+                desc: "Delivered fresh from our woman chef's table to yours, guaranteeing that signature warm 'ghar ka' sweetness.",
               },
             ].map((step) => (
               <div key={step.step} className="group">
@@ -192,7 +208,7 @@ export default function HomePage() {
                   <img alt={step.alt} className="w-full h-full object-cover" src={step.img} />
                 </div>
                 <div className="flex items-center gap-4 mb-3">
-                  <span className="w-10 h-10 rounded-full bg-[#a8275b] text-white flex items-center justify-center text-xl" style={{ fontFamily: "var(--font-fredoka)" }}>
+                  <span className="w-10 h-10 rounded-full bg-[#a8275b] text-white flex items-center justify-center text-xl font-bold" style={{ fontFamily: "var(--font-fredoka)" }}>
                     {step.step}
                   </span>
                   <h3 className="text-2xl text-[#322d2f]" style={{ fontFamily: "var(--font-fredoka)" }}>{step.title}</h3>
@@ -207,11 +223,14 @@ export default function HomePage() {
         <section className="bg-[#a8275b] text-white rounded-[2rem] p-16 text-center shadow-2xl relative overflow-hidden mb-20">
           <div className="absolute inset-0 sprinkle-bg opacity-10" />
           <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-sm font-semibold mb-4">
+              <span>👩‍🍳 Handcrafted by Woman Chef & Baker</span>
+            </div>
             <h2 className="text-5xl mb-6" style={{ fontFamily: "var(--font-fredoka)" }}>
               Craving that &ldquo;ghar ka&rdquo; sweetness?
             </h2>
             <p className="text-white/80 text-xl max-w-2xl mx-auto mb-10">
-              Treat yourself and your family to a box of honest, home-baked goodness today.
+              Treat yourself and your family to a box of honest, home-baked goodness crafted by our woman chef today.
             </p>
             <Link
               href="/menu"
@@ -233,7 +252,7 @@ export default function HomePage() {
             <img alt="The Dessert Box Logo" className="h-full w-auto object-contain mix-blend-multiply" src="/logo.svg" />
             <span className="text-xl text-[#a8275b]" style={{ fontFamily: "var(--font-fredoka)" }}>The Dessert Box</span>
           </div>
-          <p>© 2024 The Dessert Box. Handmade with love.</p>
+          <p>© 2024 The Dessert Box. Handcrafted with love by Woman Chef & Baker.</p>
         </div>
         <div className="flex gap-8">
           <a href="#" className="hover:text-[#a8275b] transition-colors">Instagram</a>

@@ -2,393 +2,269 @@
 
 import { useCartStore } from "@/lib/store";
 import { ProductCustomizationModal } from "@/components/product-customization-modal";
-import Image from "next/image";
+import { PRODUCTS, CATEGORIES, MENU_NOTICES, ProductItem } from "@/lib/data";
 import Link from "next/link";
-import { useState } from "react";
-
-// ─── data ────────────────────────────────────────────────────────────────────
-
-const classicItems = [
-  {
-    id: "prod-03",
-    name: "Black Forest",
-    startingAt: "Starting at ₹450",
-    description: "Rich chocolate layers with fresh cherries and whipped cream in perfect harmony.",
-    image: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
-    badge: null,
-    hoverLabel: "Cherry Classic",
-  },
-  {
-    id: "prod-02",
-    name: "Kitkat Cake",
-    startingAt: "Starting at ₹650",
-    description: "Crunchy KitKat pieces embedded in smooth chocolate cake with creamy frosting.",
-    image: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
-    badge: null,
-    hoverLabel: null,
-  },
-  {
-    id: "prod-rv",
-    name: "Red Velvet",
-    startingAt: "Starting at ₹450",
-    description: "Classic cocoa-infused red sponge with our signature tangy frosting.",
-    image: "/img/Gemini_Generated_Image_i2ozc3i2ozc3i2oz.png",
-    badge: "Bestseller",
-    hoverLabel: null,
-  },
-];
-
-const moreFlavors = ["Butterscotch", "Mango", "Blackcurrant", "Blueberry", "Coffee", "Lotus Biscoff", "Pistachio", "Rasmalai"];
-
-const crunchyClassics = [
-  { name: "Kitkat Treat", price: "₹650", id: "cc-1" },
-  { name: "Oreo Blast", price: "₹650", id: "cc-2" },
-  { name: "Ferrero Rocher", price: "₹700", id: "cc-3" },
-];
-
-const miniBites = [
-  { id: "mb-1", name: "Cookies", icon: "cookie", price: 199 },
-  { id: "mb-2", name: "Mini Brownie", icon: "bakery_dining", price: 199 },
-  { id: "mb-3", name: "Cup Cake (4)", icon: "cake", price: 199 },
-  { id: "mb-4", name: "Chocolates", icon: "inventory_2", price: 199 },
-];
-
-// ─── component ───────────────────────────────────────────────────────────────
+import { useState, useMemo } from "react";
 
 export default function MenuPage() {
   const items = useCartStore((s) => s.items);
   const cartCount = useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
 
-  const [showCustomizationModal, setShowCustomizationModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<{
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-    category: string;
-  } | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const handleCustomizeProduct = (product: typeof selectedProduct) => {
+  const [showCustomizationModal, setShowCustomizationModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
+
+  const handleCustomizeProduct = (product: ProductItem) => {
     setSelectedProduct(product);
     setShowCustomizationModal(true);
   };
 
   const getProductQuantity = (productId: string) => {
-    return items.find((item) => item.id === productId)?.quantity ?? 0;
+    return items.filter((item) => item.id.startsWith(productId)).reduce((sum, item) => sum + item.quantity, 0);
   };
+
+  const filteredProducts = useMemo(() => {
+    return PRODUCTS.filter((product) => {
+      const matchesCategory = activeCategory === "All" || product.category === activeCategory;
+      const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            product.description.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
+
+  const classicProducts = useMemo(() => PRODUCTS.filter(p => p.category === "Classic & Premium"), []);
+  const chocolateProducts = useMemo(() => PRODUCTS.filter(p => p.category === "For Chocolate Lovers"), []);
+  const miniBitesProducts = useMemo(() => PRODUCTS.filter(p => p.category === "Mini Bites"), []);
 
   return (
     <div className="bg-[#fef4f6] text-[#322d2f] min-h-screen">
 
+      {/* ── MAIN CONTENT ────────────────────────────────────────────────────── */}
+      <main className="pt-28 pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative overflow-hidden">
 
-      {/* ── MAIN ────────────────────────────────────────────────────────────── */}
-      <main className="pt-28 pb-32 px-6 max-w-7xl mx-auto relative overflow-hidden">
-
-        {/* Sprinkle decorations */}
-        <div className="absolute -right-20 top-40 w-64 h-64 sprinkle-pattern rounded-full -z-10" />
+        {/* Background Sprinkle decorations */}
+        <div className="absolute -right-20 top-40 w-64 h-64 sprinkle-pattern rounded-full -z-10 opacity-30" />
         <div className="absolute -left-20 bottom-40 w-80 h-80 sprinkle-pattern rounded-full -z-10 opacity-10" />
 
-        {/* Header */}
-        <header className="mb-16 text-center md:text-left">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-[#a8275b] tracking-tight mb-4" style={{ fontFamily: "var(--font-fredoka)" }}>
-            The Confectioner's <span className="text-[#ff70a0]">Menu</span>
+        {/* ── HEADER ──────────────────────────────────────────────────────────── */}
+        <header className="mb-12 text-center">
+          <div className="inline-flex items-center gap-2 bg-[#ff70a0]/20 border border-[#a8275b]/20 text-[#a8275b] px-4 py-1.5 rounded-full text-sm font-bold mb-4 shadow-sm">
+            <span>👩‍🍳 Handcrafted by Lead Woman Chef & Baker</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-[#a8275b] tracking-tight mb-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+            The Dessert Box <span className="text-[#ff70a0]">Menu</span>
           </h1>
-          <p className="text-lg text-[#605a5c] max-w-2xl leading-relaxed">
-            Handcrafted delights from our atelier to your doorstep. Explore our signature cakes and petite treats.
+          <p className="text-xl text-[#755257] font-semibold italic max-w-2xl mx-auto mb-2" style={{ fontFamily: "var(--font-fredoka)" }}>
+            "{MENU_NOTICES.tagline}"
+          </p>
+          <p className="text-sm text-[#605a5c] max-w-xl mx-auto leading-relaxed">
+            All 23 gourmet cakes and petite treats available in Bento, ½ KG, and 1 KG portions.
           </p>
         </header>
 
-        {/* ── CLASSIC & PREMIUM ─────────────────────────────────────────────── */}
-        <section className="mb-20">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-            <div>
-              <h2 className="text-3xl font-bold text-[#a8275b] flex items-center gap-3" style={{ fontFamily: "var(--font-jakarta)" }}>
-                Classic &amp; Premium
-                <span className="h-1 w-12 bg-[#ff70a0] rounded-full hidden md:block" />
-              </h2>
-              <p className="text-[#755257] font-medium mt-1">Our signature artisanal base recipes</p>
-            </div>
-
-            {/* Bento/½KG/1KG pill */}
-            <div className="grid grid-cols-3 gap-2 md:gap-4 bg-[#f9eef0] p-4 rounded-xl border border-[#b3abad]/10">
-              <div className="text-center">
-                <span className="block text-[10px] uppercase tracking-widest text-[#7c7577] mb-1">Bento</span>
-                <span className="font-bold text-[#a8275b]">₹400-800</span>
+        {/* ── OFFICIAL NOTICE & DISCLAIMER BANNER ─────────────────────────────── */}
+        <div className="bg-gradient-to-r from-[#4c0023] to-[#a8275b] text-white p-6 md:p-8 rounded-3xl mb-12 shadow-xl border border-white/20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left items-center">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl shrink-0">
+                ⏰
               </div>
-              <div className="text-center border-x border-[#b3abad]/20 px-4">
-                <span className="block text-[10px] uppercase tracking-widest text-[#7c7577] mb-1">1/2 KG</span>
-                <span className="font-bold text-[#a8275b]">₹600-900</span>
-              </div>
-              <div className="text-center">
-                <span className="block text-[10px] uppercase tracking-widest text-[#7c7577] mb-1">1 KG</span>
-                <span className="font-bold text-[#a8275b]">₹1100-1800</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Product cards */}
-            {classicItems.map((item) => (
-              <div key={item.id} className="group bg-white rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0px_20px_40px_rgba(74,44,49,0.12)] flex flex-col">
-                <Link href={`/product/${item.id}`} className="block relative aspect-square overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  {item.badge && (
-                    <div className="absolute top-4 right-4 bg-[#f9cc61] text-[#5b4400] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm">
-                      {item.badge}
-                    </div>
-                  )}
-                  {item.hoverLabel && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                      <span className="text-white text-xs font-medium">{item.hoverLabel}</span>
-                    </div>
-                  )}
-                </Link>
-                <div className="p-5 flex-grow flex flex-col">
-                  <h3 className="font-bold text-xl mb-1 text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>{item.name}</h3>
-                  <span className="block text-[#98184f] font-bold text-sm mb-2">{item.startingAt}</span>
-                  <p className="text-sm text-[#605a5c] mb-4 line-clamp-2 flex-1">{item.description}</p>
-                  <button
-                    onClick={() => handleCustomizeProduct({ id: item.id, name: item.name, price: 400, image: item.image, category: "Classic & Premium" })}
-                    className={`w-full py-3 rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 ${
-                      getProductQuantity(item.id) > 0
-                        ? "bg-[#ff70a0] text-white hover:bg-[#e85a8a]"
-                        : "bg-[#a8275b] text-white hover:bg-[#98184f]"
-                    }`}
-                  >
-                    {getProductQuantity(item.id) > 0 ? (
-                      <>
-                        <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
-                          check_circle
-                        </span>
-                        <span className="text-lg font-black">{getProductQuantity(item.id)}</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="material-symbols-outlined text-lg">add_circle</span>
-                        Add to Box
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            {/* More Flavors card */}
-            <div className="group bg-[#ff70a0]/10 rounded-2xl overflow-hidden flex flex-col border-2 border-dashed border-[#ff70a0]/30">
-              <div className="p-6 flex flex-col justify-center h-full text-center">
-                <span className="material-symbols-outlined text-4xl text-[#a8275b] mb-4">auto_awesome</span>
-                <h3 className="font-bold text-2xl mb-2 text-[#a8275b]" style={{ fontFamily: "var(--font-jakarta)" }}>More Flavors</h3>
-                <div className="flex flex-wrap justify-center gap-2 mb-6">
-                  {moreFlavors.map((f) => (
-                    <span key={f} className="px-3 py-1 bg-white rounded-full text-xs font-medium text-[#755257]">{f}</span>
-                  ))}
-                </div>
-                <button className="text-[#a8275b] font-bold text-sm underline underline-offset-4 hover:text-[#98184f] transition-colors">
-                  View All Classics
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── FOR CHOCOLATE LOVERS ──────────────────────────────────────────── */}
-        <section className="mb-20">
-          <div className="flex items-center gap-4 mb-10">
-            <div className="h-px flex-grow bg-[#b3abad]/30" />
-            <h2 className="text-3xl font-bold text-[#755257]" style={{ fontFamily: "var(--font-fredoka)" }}>For Chocolate Lovers</h2>
-            <div className="h-px flex-grow bg-[#b3abad]/30" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6" style={{ gridAutoRows: "280px" }}>
-
-            {/* Death By Chocolate – large hero */}
-            <div className="md:col-span-8 md:row-span-2 group relative rounded-2xl overflow-hidden shadow-sm">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQqFqf7VJn5tX_u2Y_19GAKC_QpQp4K4JFtaf0JsNkxj7PB2zzFUID9tvA1wu5Ic7sj55h5m8fwwWyCbYnVzH2XuYEs2jZ-h1aCh7oMGvJV1x1gPdAaECkuBcMCPyVRV5Amt6c-nJgmko9QR5g4aaMba-y2644e9u_cx--57Kvb601P3ix_EHJ7l-UqguTTbtc0kAWngYUd6zb3l-J7Obqa7nnC7u8idgeT28Ic0iV2nNl2Luy0liqEvG_wwgRany1zLpqlzdSzPs"
-                alt="Death By Chocolate"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
-                <div className="flex justify-between items-end">
-                  <div>
-                    <span className="bg-[#745700] text-[#fff1da] px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase mb-3 inline-block">
-                      The Masterpiece
-                    </span>
-                    <h3 className="text-4xl font-bold text-white mb-2" style={{ fontFamily: "var(--font-jakarta)" }}>
-                      Death By Chocolate<span className="text-2xl font-medium ml-3 text-white/90">- ₹750</span>
-                    </h3>
-                    <p className="text-white/80 max-w-md text-sm">
-                      Seven layers of dark, milk, and white chocolate textures for the ultimate cocoa experience.
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => handleCustomizeProduct({ id: "prod-01", name: "Death By Chocolate", price: 750, image: "", category: "For Chocolate Lovers" })}
-                    className={`p-4 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 ${
-                      getProductQuantity("prod-01") > 0
-                        ? "bg-[#ff70a0] text-white"
-                        : "bg-white text-[#a8275b]"
-                    }`}
-                  >
-                    {getProductQuantity("prod-01") > 0 ? (
-                      <div className="flex items-center justify-center gap-1">
-                        <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
-                          check_circle
-                        </span>
-                        <span className="text-xl font-black">{getProductQuantity("prod-01")}</span>
-                      </div>
-                    ) : (
-                      <span className="material-symbols-outlined">add_shopping_cart</span>
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Choco Truffle */}
-            <div className="md:col-span-4 group relative rounded-2xl overflow-hidden glass-card border border-white/40">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZC7YSWFCR4aGnnu7319ksH9xyTJuZ6vz9Y4tOVajIv8IFaKp6bu-mxhP0-nEUu2ZKqqJxLPQ8vJpCz85oPZyHZww8vxZwX2fQy37WQX68FgRhe1vftY0JQO0Y9v0Dc9hEQ26Z7VnxXEtUZ-YKaUwqyFJ9F1bYXCs9uHfh6xladln1qdc-IlPiOOyzanp7AsD2ihpbS8M7jxkI2HdtwDcXzbfZ48HcBzu-POrnRlSXfgHEREXWaeA8KcmEh8ujrwx_QuOv4fRtYI0"
-                alt="Choco Truffle"
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h3 className="font-bold text-lg text-[#a8275b]">Choco Truffle</h3>
-                <span className="block text-[#755257] font-bold text-sm mb-1">₹600</span>
-                <p className="text-xs text-[#605a5c] mb-4">Silky ganache with deep cocoa notes.</p>
-                <button
-                  onClick={() => handleCustomizeProduct({ id: "prod-ct", name: "Choco Truffle", price: 600, image: "", category: "For Chocolate Lovers" })}
-                  className={`font-bold text-sm flex items-center gap-1 transition-all ${
-                    getProductQuantity("prod-ct") > 0
-                      ? "text-[#ff70a0] group-hover:gap-2"
-                      : "text-[#98184f] group-hover:gap-2"
-                  }`}
-                >
-                  {getProductQuantity("prod-ct") > 0 ? (
-                    <>
-                      <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
-                        check_circle
-                      </span>
-                      <span className="text-lg font-black">{getProductQuantity("prod-ct")}</span>
-                    </>
-                  ) : (
-                    <>
-                      Add to Box <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Crunchy Classics */}
-            <div className="md:col-span-4 rounded-2xl bg-[#755257] text-white p-6 flex flex-col justify-between">
               <div>
-                <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>Crunchy Classics</h3>
-                <ul className="space-y-4">
-                  {crunchyClassics.map((item, i) => (
-                    <li
-                      key={item.id}
-                      onClick={() => handleCustomizeProduct({ id: item.id, name: item.name, price: parseInt(item.price.replace("₹", "")), image: "", category: "For Chocolate Lovers" })}
-                      className={`flex justify-between items-center group/item cursor-pointer ${i > 0 ? "border-t border-white/10 pt-4" : ""}`}
-                    >
-                      <span>{item.name} - {item.price}</span>
-                      {getProductQuantity(item.id) > 0 ? (
-                        <div className="flex items-center gap-1">
-                          <span className="material-symbols-outlined opacity-100 transition-opacity" style={{ fontVariationSettings: "'FILL' 1" }}>
-                            check_circle
-                          </span>
-                          <span className="text-lg font-black">{getProductQuantity(item.id)}</span>
-                        </div>
-                      ) : (
-                        <span className="material-symbols-outlined opacity-0 group-hover/item:opacity-100 transition-opacity">add_circle</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/10 text-[10px] uppercase tracking-widest text-white/60">
-                Available in Bento &amp; Full Size
+                <h4 className="font-bold text-lg text-white" style={{ fontFamily: "var(--font-jakarta)" }}>Pre-Order Required</h4>
+                <p className="text-xs text-white/80">{MENU_NOTICES.preOrder}</p>
               </div>
             </div>
-
-          </div>
-        </section>
-
-        {/* ── MINI BITES ────────────────────────────────────────────────────── */}
-        <section className="mb-20">
-          <div className="relative bg-[#f0e6e8] rounded-2xl p-8 md:p-12 overflow-hidden">
             
-            {/* ₹199 badge */}
-            <div className="absolute top-0 right-0 p-8">
-              <div className="w-24 h-24 rounded-full bg-[#f9cc61] flex flex-col items-center justify-center text-[#5b4400] transform rotate-12 shadow-lg border-4 border-white/20">
-                <span className="text-[10px] font-bold uppercase">Only</span>
-                <span className="text-2xl font-extrabold leading-none">₹199</span>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-2xl shrink-0">
+                📦
+              </div>
+              <div>
+                <h4 className="font-bold text-lg text-white" style={{ fontFamily: "var(--font-jakarta)" }}>Customization & Delivery</h4>
+                <p className="text-xs text-white/80">{MENU_NOTICES.extraCharges}</p>
               </div>
             </div>
 
-            <div className="relative z-10 max-w-3xl">
-              <h2 className="text-4xl font-bold text-[#a8275b] mb-2" style={{ fontFamily: "var(--font-jakarta)" }}>Mini Bites</h2>
-              <p className="text-[#605a5c] mb-10 text-lg">
-                Perfect little joy-filled moments. All items in this category are priced at a flat rate of ₹199.
-              </p>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-[#ff70a0] text-[#4c0023] rounded-full flex items-center justify-center text-2xl shrink-0 font-bold">
+                📱
+              </div>
+              <div>
+                <h4 className="font-bold text-lg text-white" style={{ fontFamily: "var(--font-jakarta)" }}>Direct WhatsApp Order</h4>
+                <p className="text-xs text-white/80">Call/WhatsApp: +91 {MENU_NOTICES.phone}</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {miniBites.map((item) => (
-                  <div key={item.id} className="bg-white p-4 rounded-2xl text-center group hover:-translate-y-1 transition-transform">
-                    <div className="w-16 h-16 bg-[#ff70a0]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <span className="material-symbols-outlined text-[#a8275b] text-2xl">{item.icon}</span>
-                    </div>
-                    <h4 className="font-bold text-sm mb-3">{item.name}</h4>
-                    <button
-                      onClick={() => handleCustomizeProduct({ id: item.id, name: item.name, price: 199, image: "", category: "Mini Bites" })}
-                      className={`text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full transition-colors ${
-                        getProductQuantity(item.id) > 0
-                          ? "bg-[#ff70a0] text-white"
-                          : "text-[#a8275b] border border-[#a8275b]/20 group-hover:bg-[#a8275b] group-hover:text-white"
-                      }`}
-                    >
-                      {getProductQuantity(item.id) > 0 ? (
-                        <span className="inline-flex items-center gap-1">
-                          ✓ <span className="text-lg font-black">{getProductQuantity(item.id)}</span>
-                        </span>
-                      ) : (
-                        <span><span className="mr-1">₹199</span>Add</span>
-                      )}
-                    </button>
-                  </div>
+        {/* ── SEARCH & CATEGORY FILTERS ───────────────────────────────────────── */}
+        <div className="mb-12 space-y-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            {/* Filter Tabs */}
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 bg-[#f0e6e8] p-1.5 rounded-full border border-[#b3abad]/20">
+              {["All", "Classic & Premium", "For Chocolate Lovers", "Mini Bites"].map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-5 py-2.5 rounded-full font-bold text-xs sm:text-sm transition-all ${
+                    activeCategory === cat
+                      ? "bg-[#a8275b] text-white shadow-md"
+                      : "text-[#755257] hover:text-[#a8275b] hover:bg-white/50"
+                  }`}
+                  style={{ fontFamily: "var(--font-jakarta)" }}
+                >
+                  {cat} {cat === "All" ? `(${PRODUCTS.length})` : cat === "Classic & Premium" ? `(${classicProducts.length})` : cat === "For Chocolate Lovers" ? `(${chocolateProducts.length})` : `(${miniBitesProducts.length})`}
+                </button>
+              ))}
+            </div>
+
+            {/* Search Input */}
+            <div className="relative w-full md:w-72">
+              <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#a8275b]">
+                search
+              </span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search flavors, cakes..."
+                className="w-full bg-white border border-[#b3abad]/30 rounded-full pl-10 pr-4 py-2.5 text-sm text-[#322d2f] focus:outline-none focus:border-[#a8275b] shadow-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* ── PRODUCT GRID BY CATEGORIES ─────────────────────────────────────── */}
+        {activeCategory === "All" && !searchQuery ? (
+          <>
+            {/* SECTION 1: CLASSIC & PREMIUM */}
+            <section className="mb-20">
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-[#a8275b]/15 pb-4">
+                <div>
+                  <h2 className="text-3xl font-extrabold text-[#a8275b] flex items-center gap-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+                    Classic & Premium Cakes
+                    <span className="text-sm font-semibold bg-[#ff70a0]/20 text-[#a8275b] px-3 py-1 rounded-full">11 Flavors</span>
+                  </h2>
+                  <p className="text-[#755257] text-sm mt-1">Our signature artisanal base recipes</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {classicProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} onCustomize={handleCustomizeProduct} quantity={getProductQuantity(product.id)} />
                 ))}
               </div>
-            </div>
+            </section>
 
-            {/* BG blob */}
-            <div className="absolute bottom-0 right-0 translate-y-1/2 translate-x-1/4 w-96 h-96 bg-[#ff70a0]/10 rounded-full -z-0" />
-          </div>
-        </section>
+            {/* SECTION 2: FOR CHOCOLATE LOVERS */}
+            <section className="mb-20">
+              <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 border-b border-[#a8275b]/15 pb-4">
+                <div>
+                  <h2 className="text-3xl font-extrabold text-[#4c0023] flex items-center gap-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+                    For Chocolate Lovers 🍫
+                    <span className="text-sm font-semibold bg-[#755257]/20 text-[#4c0023] px-3 py-1 rounded-full">8 Creations</span>
+                  </h2>
+                  <p className="text-[#755257] text-sm mt-1">Rich, decadent cocoa masterpieces</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {chocolateProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} onCustomize={handleCustomizeProduct} quantity={getProductQuantity(product.id)} />
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION 3: MINI BITES */}
+            <section className="mb-20">
+              <div className="bg-[#f0e6e8] rounded-3xl p-8 md:p-12 relative overflow-hidden border border-[#a8275b]/15">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                  <div>
+                    <h2 className="text-3xl font-extrabold text-[#a8275b] flex items-center gap-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+                      Mini Bites 🧁
+                      <span className="text-sm font-semibold bg-[#f9cc61] text-[#5b4400] px-3 py-1 rounded-full uppercase tracking-wider">Flat ₹199</span>
+                    </h2>
+                    <p className="text-[#605a5c] text-sm mt-1">Perfect little joy-filled bite-sized treats</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+                  {miniBitesProducts.map((product) => (
+                    <ProductCard key={product.id} product={product} onCustomize={handleCustomizeProduct} quantity={getProductQuantity(product.id)} isMiniBite />
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        ) : (
+          /* FILTERED OR SEARCH RESULTS VIEW */
+          <section className="mb-20">
+            <h2 className="text-2xl font-bold text-[#a8275b] mb-6" style={{ fontFamily: "var(--font-jakarta)" }}>
+              {searchQuery ? `Search Results for "${searchQuery}" (${filteredProducts.length})` : `${activeCategory} (${filteredProducts.length})`}
+            </h2>
+
+            {filteredProducts.length === 0 ? (
+              <div className="bg-white rounded-3xl p-12 text-center shadow-sm">
+                <span className="material-symbols-outlined text-6xl text-[#a8275b]/30 mb-4">search_off</span>
+                <h3 className="text-xl font-bold text-[#322d2f] mb-2">No treats found</h3>
+                <p className="text-[#605a5c]">Try searching for something else or switch category tabs.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} onCustomize={handleCustomizeProduct} quantity={getProductQuantity(product.id)} isMiniBite={product.category === "Mini Bites"} />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
       </main>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
-      <footer className="bg-[#f9eef0] pt-20 pb-28 px-6 overflow-hidden relative">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
-          <div className="text-center md:text-left">
-            <span className="material-symbols-outlined text-[#a8275b] text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>cake</span>
-            <p className="text-[#605a5c] max-w-xs text-sm mt-4">
-              Crafting sweetness one layer at a time with the finest ingredients and boundless imagination.
+      <footer className="bg-[#f9eef0] pt-16 pb-28 px-6 overflow-hidden relative border-t border-[#a8275b]/10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 relative z-10 text-[#322d2f]">
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="material-symbols-outlined text-[#a8275b] text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>cake</span>
+              <span className="text-2xl font-extrabold text-[#a8275b]" style={{ fontFamily: "var(--font-fredoka)" }}>The Dessert Box</span>
+            </div>
+            <p className="text-sm text-[#605a5c] leading-relaxed mb-4">
+              Handcrafted with love, culinary mastery, and maternal care by our lead woman chef & baker in Coimbatore.
+            </p>
+            <p className="text-xs text-[#a8275b] font-bold">
+              Instagram: @{MENU_NOTICES.instagram}
             </p>
           </div>
-          <div className="flex gap-12 text-sm font-bold text-[#a8275b]" style={{ fontFamily: "var(--font-jakarta)" }}>
-            <a href="#" className="hover:text-[#ff70a0] transition-colors">Instagram</a>
-            <a href="#" className="hover:text-[#ff70a0] transition-colors">Pinterest</a>
-            <a href="#" className="hover:text-[#ff70a0] transition-colors">WhatsApp</a>
+
+          <div>
+            <h4 className="font-extrabold text-lg text-[#a8275b] mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>Order & Delivery Info</h4>
+            <ul className="space-y-2 text-sm text-[#605a5c]">
+              <li className="flex items-center gap-2">
+                <span className="text-base">⏰</span> {MENU_NOTICES.preOrder}
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-base">📦</span> {MENU_NOTICES.extraCharges}
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-base">📞</span> WhatsApp: +91 {MENU_NOTICES.phone}
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-extrabold text-lg text-[#a8275b] mb-4" style={{ fontFamily: "var(--font-jakarta)" }}>Atelier Location</h4>
+            <p className="text-sm text-[#605a5c] leading-relaxed">
+              📍 {MENU_NOTICES.address}
+            </p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#a8275b] via-[#ff70a0] to-[#f9cc61]" />
+
+        <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-[#b3abad]/20 text-center text-xs text-[#605a5c]">
+          © 2024 The Dessert Box. All Rights Reserved. Crafted by Woman Chef & Baker.
+        </div>
       </footer>
 
       {/* ── PRODUCT CUSTOMIZATION MODAL ───────────────────────────────────── */}
@@ -400,26 +276,102 @@ export default function MenuPage() {
         />
       )}
 
-      {/* ── MOBILE BOTTOM NAV ───────────────────────────────────────────────── */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 bg-white/60 backdrop-blur-xl px-4 pb-4 flex justify-around items-end shadow-[0px_-10px_30px_rgba(74,44,49,0.05)] rounded-t-[32px]">
-        <Link href="/menu" className="flex flex-col items-center justify-center text-[#a8275b]/60 p-2 hover:bg-[#fef4f6] rounded-full active:scale-90 transition-all">
-          <span className="material-symbols-outlined">menu_book</span>
-          <span className="text-[10px] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: "var(--font-jakarta)" }}>Menu</span>
-        </Link>
-        <Link href="/menu" className="flex flex-col items-center justify-center bg-[#ff70a0] text-white rounded-full p-3 mb-2 -translate-y-2 shadow-lg active:scale-90 transition-all">
-          <span className="material-symbols-outlined">cake</span>
-          <span className="text-[10px] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: "var(--font-jakarta)" }}>Custom</span>
-        </Link>
-        <Link href="/orders" className="flex flex-col items-center justify-center text-[#a8275b]/60 p-2 hover:bg-[#fef4f6] rounded-full active:scale-90 transition-all">
-          <span className="material-symbols-outlined">receipt_long</span>
-          <span className="text-[10px] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: "var(--font-jakarta)" }}>Orders</span>
-        </Link>
-        <Link href="#" className="flex flex-col items-center justify-center text-[#a8275b]/60 p-2 hover:bg-[#fef4f6] rounded-full active:scale-90 transition-all">
-          <span className="material-symbols-outlined">person</span>
-          <span className="text-[10px] font-bold uppercase tracking-wider mt-1" style={{ fontFamily: "var(--font-jakarta)" }}>Profile</span>
-        </Link>
-      </nav>
+    </div>
+  );
+}
 
+// ── Product Card Helper Component ──────────────────────────────────────────
+function ProductCard({
+  product,
+  onCustomize,
+  quantity,
+  isMiniBite = false,
+}: {
+  product: ProductItem;
+  onCustomize: (p: ProductItem) => void;
+  quantity: number;
+  isMiniBite?: boolean;
+}) {
+  return (
+    <div className="group bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0px_20px_40px_rgba(168,39,91,0.12)] flex flex-col border border-[#b3abad]/15 hover:border-[#a8275b]/30">
+      {/* Product Image */}
+      <div className="block relative aspect-square overflow-hidden bg-[#fef4f6]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        {product.badge && (
+          <div className="absolute top-3 right-3 bg-[#f9cc61] text-[#5b4400] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+            {product.badge}
+          </div>
+        )}
+        <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md text-[#a8275b] text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+          Starting ₹{product.startingPrice}
+        </div>
+      </div>
+
+      {/* Card Content */}
+      <div className="p-5 flex-grow flex flex-col justify-between">
+        <div>
+          <div className="flex justify-between items-start mb-1">
+            <h3 className="font-extrabold text-xl text-[#322d2f]" style={{ fontFamily: "var(--font-jakarta)" }}>
+              {product.name}
+            </h3>
+          </div>
+
+          {/* Pricing tiers breakdown pill if available */}
+          {product.prices && (
+            <div className="grid grid-cols-3 gap-1 bg-[#f9eef0] p-2 rounded-xl text-[11px] text-center my-3 font-semibold text-[#a8275b] border border-[#a8275b]/10">
+              <div>
+                <span className="block text-[9px] uppercase tracking-wider text-[#605a5c]">Bento</span>
+                ₹{product.prices.bento}
+              </div>
+              <div className="border-x border-[#a8275b]/15 px-1">
+                <span className="block text-[9px] uppercase tracking-wider text-[#605a5c]">½ KG</span>
+                ₹{product.prices.halfKg}
+              </div>
+              <div>
+                <span className="block text-[9px] uppercase tracking-wider text-[#605a5c]">1 KG</span>
+                ₹{product.prices.oneKg}
+              </div>
+            </div>
+          )}
+
+          {isMiniBite && (
+            <div className="bg-[#f9cc61]/20 text-[#5b4400] px-3 py-1 rounded-xl text-xs font-bold text-center my-3">
+              Portion Price: ₹199
+            </div>
+          )}
+
+          <p className="text-xs text-[#605a5c] mb-4 line-clamp-2 leading-relaxed">{product.description}</p>
+        </div>
+
+        <button
+          onClick={() => onCustomize(product)}
+          className={`w-full py-3 rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-md ${
+            quantity > 0
+              ? "bg-[#ff70a0] text-white hover:bg-[#e85a8a]"
+              : "bg-[#a8275b] text-white hover:bg-[#98184f]"
+          }`}
+          style={{ fontFamily: "var(--font-jakarta)" }}
+        >
+          {quantity > 0 ? (
+            <>
+              <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>
+                check_circle
+              </span>
+              <span>In Cart ({quantity})</span>
+            </>
+          ) : (
+            <>
+              <span className="material-symbols-outlined text-lg">add_shopping_cart</span>
+              <span>{isMiniBite ? "Add to Box (₹199)" : "Select Size & Add"}</span>
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 }

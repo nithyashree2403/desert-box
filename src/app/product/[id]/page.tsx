@@ -2,102 +2,45 @@
 
 import { useCartStore } from "@/lib/store";
 import { ProductCustomizationModal } from "@/components/product-customization-modal";
+import { PRODUCTS as ALL_PRODUCTS, ProductItem } from "@/lib/data";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
-// ─── product data ─────────────────────────────────────────────────────────────
-
-const PRODUCTS: Record<string, {
-  id: string; name: string; price: number; badge?: string;
-  description: string; ingredients: string; allergens: string;
-  highlights: { icon: string; label: string }[];
-  heroImage: string; thumb1: string; thumb2: string;
-  category: string;
-}> = {
-  "prod-01": {
-    id: "prod-01",
-    name: "Death By Chocolate",
-    price: 750,
-    badge: "Best Seller",
-    description: "Seven layers of dark, milk, and white chocolate textures for the ultimate cocoa experience. Handcrafted with artisanal precision and perfectly balanced between bittersweet and creamy richness.",
-    ingredients: "Couverture dark chocolate (70%), Swiss milk chocolate, white chocolate velvet ganache, organic cocoa powder, free-range eggs, Madagascar vanilla.",
-    allergens: "Contains: Dairy, Eggs, Gluten, Nuts (may contain traces).",
-    highlights: [
-      { icon: "local_fire_department", label: "Freshly baked" },
-      { icon: "favorite", label: "Chocolate lovers" },
-      { icon: "group", label: "Serves 1-2" },
-    ],
-    heroImage: "https://lh3.googleusercontent.com/aida-public/AB6AXuA45oWkN8Z26J6XuJ15VoSIoKzz-iuoMyDmbTv4aZdEIsnIUsgIFmnE0p_R2Ykg8KF4grZjVouyqyLZbJZ_q7fZKXLwjkRIyiSbESMuUyoYWRyMdhQKfArt7z8MoHVO_tZMZJ1LZvBYq3hjKuAfsQn0MTDHi6Gp_PDDXAFrzH1Xzu5fL_SVKbf3WCT5Ce5EoU9oGyOQjRfLEVR5lup6ueS-1BeJXDfBHHq3JEApr1x0hV6AfGaF1xQILBcGNW_e6z6WjfgiMI5Y1gs",
-    thumb1: "https://lh3.googleusercontent.com/aida-public/AB6AXuAG8SZeXAPEkgy4tCxpPAI4sgEFUbHjtXs5W9i-QogvXtqlzPTtR3rp88jV-IPm9WQg7kHcwrXti7hvqvnq9D7Elm-6g2Gqdm07MVGClyM3kpbe5acnXudmT1q6V_8EN8X1mSebq9uBF9AbYQVRiaf4OEt78ncMxzhoM4x5Rhhy-me7xEZzJDPseTep236XTzLzaUdl7TaAcdTIPtesjdazwed9sBDiUNfVoRSQAn0Cbw0wet0d6zkDaspO3fMYrSsR77w5MWxQz7w",
-    thumb2: "https://lh3.googleusercontent.com/aida-public/AB6AXuB4XspH8GAaCTsUrXxJsiscOSZ1RjMTgSAk6oj2-Oc1lrPqayI-kfW43Edx1JS8g0FjDiRmVyqPXwkv5IZ8q6hzAB9irLbT-wkCe_ByIulNZdWU3v8e2u-yGDZSgsJ4XdzIW560jtZEoFanKqR6AIowB9hyfEhT6WJcfBPNyO6eDgegnSsMLTsgHAt_GzWh_g_cFqJriqmxDx1s8axuJydgRC9MV5lsUT-g-mw7i53QTDt_5_JiQigD8Ld22HSOynA_2KX3fWUrRQM",
-    category: "For Chocolate Lovers",
-  },
-  "prod-02": {
-    id: "prod-02",
-    name: "Kitkat Cake",
-    price: 650,
-    badge: undefined,
-    description: "Layers of chocolate sponge with crunchy KitKat pieces and smooth chocolate ganache. A delightful crunch in every bite.",
-    ingredients: "Chocolate sponge, KitKat pieces, chocolate ganache, whipped cream, butter, cocoa powder, free-range eggs.",
-    allergens: "Contains: Dairy, Eggs, Gluten, Nuts.",
-    highlights: [
-      { icon: "local_fire_department", label: "Freshly baked" },
-      { icon: "favorite", label: "Chocolate delight" },
-      { icon: "group", label: "Serves 2-3" },
-    ],
-    heroImage: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
-    thumb1: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
-    thumb2: "/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
-    category: "Classic & Premium",
-  },
-  "prod-03": {
-    id: "prod-03",
-    name: "Black Forest",
-    price: 450,
-    badge: undefined,
-    description: "Rich dark chocolate sponge layered with fresh cherries, whipped cream, and dark chocolate shavings. A timeless classic with a modern twist.",
-    ingredients: "Dark chocolate (70%), Fresh cherries, Whipped cream, Cocoa powder, Free-range eggs, Madagascar vanilla, Butter.",
-    allergens: "Contains: Dairy, Eggs, Gluten, Nuts (may contain traces).",
-    highlights: [
-      { icon: "local_fire_department", label: "Freshly baked" },
-      { icon: "favorite", label: "Cherry delight" },
-      { icon: "group", label: "Serves 2-3" },
-    ],
-    heroImage: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
-    thumb1: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
-    thumb2: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
-    category: "Classic & Premium",
-  },
-};
-
-const recommendations = [
-  {
-    id: "prod-03",
-    name: "Black Forest",
-    price: "₹700",
-    image: "/img/Gemini_Generated_Image_8gs38k8gs38k8gs3.png",
-  },
-  {
-    id: "prod-02",
-    name: "Kitkat Cake",
-    price: "₹700",
-    image: "public/img/Gemini_Generated_Image_kckkpzkckkpzkckk.png",
-  },
-];
-
-// ─── component ────────────────────────────────────────────────────────────────
-
 export default function ProductPage() {
   const params = useParams();
-  const id = Array.isArray(params.id) ? params.id[0] : (params.id ?? "prod-01");
-  const product = PRODUCTS[id] ?? PRODUCTS["prod-01"];
+  const rawId = Array.isArray(params.id) ? params.id[0] : (params.id ?? "prod-cl-dbc");
+
+  // Find product by id or name slug
+  const productData: ProductItem = ALL_PRODUCTS.find((p) => p.id === rawId || p.id.replace("prod-", "") === rawId) || ALL_PRODUCTS[0];
+
+  const product = {
+    id: productData.id,
+    name: productData.name,
+    price: productData.startingPrice,
+    badge: productData.badge,
+    description: productData.description,
+    ingredients: productData.ingredients || "Handcrafted with premium ingredients, butter, and real cocoa.",
+    allergens: productData.allergens || "Contains: Dairy, Gluten.",
+    highlights: [
+      { icon: "local_fire_department", label: "Freshly baked" },
+      { icon: "favorite", label: "Woman Chef recipe" },
+      { icon: "group", label: "Custom sizes" },
+    ],
+    heroImage: productData.image,
+    thumb1: productData.image,
+    thumb2: productData.image,
+    category: productData.category,
+    prices: productData.prices,
+  };
+
+  const recommendations = ALL_PRODUCTS.filter((p) => p.id !== productData.id).slice(0, 3);
 
   const items = useCartStore((s) => s.items);
   const cartCount = useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
   const [showCustomizationModal, setShowCustomizationModal] = useState(false);
 
-  const productInCart = items.find((item) => item.id === product.id);
+  const productInCart = items.find((item) => item.id.startsWith(product.id));
   const productQuantity = productInCart?.quantity ?? 0;
 
   const handleAdd = () => {
@@ -233,7 +176,7 @@ export default function ProductPage() {
                   />
                 </div>
                 <h4 className="text-xl font-bold mb-1" style={{ fontFamily: "var(--font-jakarta)" }}>{rec.name}</h4>
-                <p className="text-[#a8275b] font-bold">{rec.price}</p>
+                <p className="text-[#a8275b] font-bold">Starting ₹{rec.startingPrice}</p>
               </Link>
             ))}
 
